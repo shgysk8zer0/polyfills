@@ -1,6 +1,8 @@
 /**
  * @copyright 2023 Chris Zuber <admin@kernvalley.us>
  */
+
+import './deprefixer.js';
 import './symbols.js';
 import './array.js';
 import './globalThis.js';
