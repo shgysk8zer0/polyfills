@@ -1,0 +1,51 @@
+{
+  "name": "@shgysk8zer0/polyfills",
+  "version": "0.0.1",
+  "description": "A collection of JavaScript polyfills",
+  "config": {
+    "serve": {
+      "domain": "localhost",
+      "path": "./",
+      "port": 8080
+    },
+    "dir": {
+      "css": "css/ components/",
+      "js": "js/ components/",
+      "img": "img/",
+      "html": "components/"
+    }
+  },
+  "scripts": {
+    "test": "npm run lint:js && npm run lint:html",
+    "preversion": "npm test",
+    "start": "http-server ${npm_package_config_serve_path} -c-1 --port ${npm_package_config_serve_port} --gzip true --brotli true -a ${npm_package_config_serve_domain} -o /test/",
+    "fix": "npm run fix:js",
+    "fix:js": "eslint . --fix",
+    "lint:js": "eslint .",
+    "lint:html": "htmlhint \"**/*.html\"",
+    "create:lock": "npm i --package-lock-only --ignore-scripts",
+    "version:bump": "npm run version:bump:patch",
+    "version:bump:patch": "npm version --no-git-tag-version patch",
+    "version:bump:minor": "npm version --no-git-tag-version minor",
+    "version:bump:major": "npm version --no-git-tag-version major"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shgysk8zer0/polyfills.git"
+  },
+  "keywords": [
+    "polyfills",
+    "shims"
+  ],
+  "author": "Chris Zuber <shgysk8zer0@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shgysk8zer0/polyfills/issues"
+  },
+  "homepage": "https://github.com/shgysk8zer0/polyfills#readme",
+  "devDependencies": {
+    "eslint": "^8.40.0",
+    "htmlhint": "^1.1.4",
+    "http-server": "^14.1.1"
+  }
+}
