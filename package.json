@@ -1,6 +1,6 @@
 {
   "name": "@shgysk8zer0/polyfills",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": false,
   "description": "A collection of JavaScript polyfills",
   "config": {
@@ -18,12 +18,14 @@
   },
   "scripts": {
     "test": "npm run lint:js && npm run lint:html",
-    "preversion": "npm test",
+    "preversion": "npm test && npm run build:js",
+    "prepare": "npm run build:js",
     "start": "http-server ${npm_package_config_serve_path} -c-1 --port ${npm_package_config_serve_port} --gzip true --brotli true -a ${npm_package_config_serve_domain} -o /test/",
     "fix": "npm run fix:js",
     "fix:js": "eslint . --fix",
     "lint:js": "eslint .",
     "lint:html": "htmlhint \"**/*.html\"",
+    "build:js": "rollup -c rollup.config.js",
     "create:lock": "npm i --package-lock-only --ignore-scripts",
     "version:bump": "npm run version:bump:patch",
     "version:bump:patch": "npm version --no-git-tag-version patch",
@@ -47,6 +49,8 @@
   "devDependencies": {
     "eslint": "^8.40.0",
     "htmlhint": "^1.1.4",
-    "http-server": "^14.1.1"
+    "http-server": "^14.1.1",
+    "rollup": "^2.79.1",
+    "rollup-plugin-terser": "^7.0.2"
   }
 }
