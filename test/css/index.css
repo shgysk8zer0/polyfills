@@ -1,0 +1,43 @@
+@import url("./vars.css");
+
+:root {
+	box-sizing: border-box;
+}
+
+* {
+	box-sizing: inherit;
+}
+
+body {
+	display: grid;
+	grid-template-areas: "header header" "nav nav" " main sidebar" "footer footer";
+	grid-template-rows: calc(100dvh - var(--nav-height)) var(--nav-height) auto;
+	grid-template-columns: 1fr 400px;
+	column-gap: 1.2em;
+}
+
+#header {
+	grid-area: header;
+}
+
+#nav {
+	grid-area: nav;
+	position: sticky;
+	top: 0;
+	height: var(--nav-height);
+	display: flex;
+	flex-direction: row;
+	background-image: linear-gradient(red, blue);
+}
+
+#main {
+	grid-area: main;
+}
+
+#sidebar {
+	grid-area: sizebar;
+}
+
+#footer {
+	grid-area: footer;
+}

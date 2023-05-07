@@ -1,0 +1,11 @@
+node_modules/
+test/
+.github/
+.editorconfig
+.eslintignore
+.eslintrc.json
+.gitattributes
+.gitignore
+.nvmrc
+*.tgz
+*.log
