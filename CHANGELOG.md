@@ -15,3 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Add missing `deprefixer.js` script
+
+## [v0.0.5] - 2023-05-08
+
+### Changed
+- Update README with instructions
