@@ -6,17 +6,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### [v0.0.3] - 2023-05-07
+## [v0.0.6] - 2023-05-15
 
 ### Added
-- Bundle `all.js` -> `all.min.js` on pack/pubilsh
+- `main` & `module` to `package.json`
+
+### Changed
+- Update README (again)
+- Update `rollup-plugin-terser` to `@rollup/plugin-terser`
+- Fix order of releases in CHANGELOG
+
+### Removed
+- Remove polyfill for `<dialog>` from default bundle (moved to `legacy/`)
+
+## [v0.0.5] - 2023-05-08
+
+### Changed
+- Update README with instructions
 
 ## [v0.0.4] - 2023-05-07
 
 ### Added
 - Add missing `deprefixer.js` script
 
-## [v0.0.5] - 2023-05-08
+### [v0.0.3] - 2023-05-07
 
-### Changed
-- Update README with instructions
+### Added
+- Bundle `all.js` -> `all.min.js` on pack/pubilsh

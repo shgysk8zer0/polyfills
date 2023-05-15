@@ -3,14 +3,7 @@
 
 	if (typeof globalThis === 'undefined') {
 		/* global global: true */
-		if (typeof self !== 'undefined') {
-			Object.defineProperty(self, 'globalThis', {
-				enumerable: false,
-				writable: true,
-				configurable: true,
-				value: self,
-			});
-		} else if (typeof window !== 'undefined') {
+		if (typeof window !== 'undefined') {
 			Object.defineProperty(Window.prototype, 'globalThis', {
 				enumerable: false,
 				writable: true,
@@ -23,6 +16,13 @@
 				writable: true,
 				configurable: true,
 				value: global,
+			});
+		} else if (typeof self !== 'undefined') {
+			Object.defineProperty(self, 'globalThis', {
+				enumerable: false,
+				writable: true,
+				configurable: true,
+				value: self,
 			});
 		} else {
 			Object.defineProperty(this, 'globalThis', {

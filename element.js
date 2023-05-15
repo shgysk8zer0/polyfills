@@ -1,4 +1,3 @@
-import './dialog.js';
 import { aria } from './aom.js';
 
 if (! (HTMLScriptElement.supports instanceof Function)) {

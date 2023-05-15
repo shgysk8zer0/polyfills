@@ -1,5 +1,5 @@
 /* eslint-env node */
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 
 export default {
 	input: 'all.js',
@@ -8,7 +8,5 @@ export default {
 		format: 'iife',
 		sourcemap: true,
 	},
-	plugins: [
-		terser(),
-	],
+	plugins: [terser()],
 };
