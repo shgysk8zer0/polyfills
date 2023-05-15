@@ -1,5 +1,8 @@
-# polyfills
-A set of JavaScript polyfills
+# [@shgysk8zer0/polyfills](https://www.npmjs.com/package/@shgysk8zer0/rollup-import)
+
+@shgysk8zer0/polyfills is a collection of JavaScript polyfills designed to provide
+modern functionality in older browsers. This library provides a range of polyfills
+for features including `AbortSignal`, `CookieStore`, `Sanitizer`, and many more.
 
 [![CodeQL](https://github.com/shgysk8zer0/polyfills/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/shgysk8zer0/polyfills/actions/workflows/codeql-analysis.yml)
 ![Node CI](https://github.com/shgysk8zer0/polyfills/workflows/Node%20CI/badge.svg)
@@ -27,51 +30,92 @@ A set of JavaScript polyfills
 - [Contributing](./.github/CONTRIBUTING.md)
 <!-- - [Security Policy](./.github/SECURITY.md) -->
 
-## Installation / Usage
-This may be used via [unpkg.com](https://unpkg.com/browse/@shgysk8zer0/polyfills/),
-as an [npm package](https://www.npmjs.com/package/@shgysk8zer0/polyfills), or 
-as a submodule.
+## Installation
 
-Simply adding the `<script>`, `import`, or `require()` is all you need to do.
+You can access @shgysk8zer0/polyfills in several ways:
 
-### From CDN
+### CDN
 
-### The simplest
+You can use a CDN to access the library. Add the following script tag to your
+HTML file to load the latest version:
 
 ```html
-<script src="https://unpkg.com/@shgysk8zer0/polyfills/all.min.js" referrerpolicy="no-referrer" crossorigin="anonymous"  defer=""></script>
+<script src="https://unpkg.com/@shgysk8zer0/polyfills/all.min.js"></script>
 ```
 
-### With version and SRI
+#### With version and SRI
 
 ```html
-<script src="https://unpkg.com/@shgysk8zer0/polyfills@0.0.4/all.min.js" referrerpolicy="no-referrer" crossorigin="anonymous" integrity="sha384-xoY6kDRPTvbDfGdGA3S6Ercudev5mWGBWZIErLB38f7TeN6hV7zof6WBpzMdx/z0" fetchpriority="high" defer=""></script>
+<script src="https://unpkg.com/@shgysk8zer0/polyfills@0.0.6/all.min.js" referrerpolicy="no-referrer" crossorigin="anonymous" integrity="sha384-xoY6kDRPTvbDfGdGA3S6Ercudev5mWGBWZIErLB38f7TeN6hV7zof6WBpzMdx/z0" fetchpriority="high" defer=""></script>
 ```
 
-### Using specific polyfills via `<script>`
+### NPM
 
-**Note** that some polyfills require `type="module"`
-
-```html
-<script src="https://unpkg.com/@shgysk8zer0/polyfills/math.js" referrerpolicy="no-referrer" crossorigin="anonymous"  defer=""></script>
-```
-
-### Selecting specific polyfills as `import`s
-
-```js
-import 'https://unpkg.com/@shgysk8zer0/polyfills/abort.js';
-import 'https://unpkg.com/@shgysk8zer0/polyfills/elementInternals.js';
-/* ... */
-```
-
-## As an npm package
+You can install the library as an NPM package and use it in your project. Use
+the following command to install the library:
 
 ```bash
-npm i @shgysk8zer0/polyfills
+npm install @shgysk8zer0/polyfills
 ```
 
-## As a git submodule
+### Git Submodule
+
+You can add the library as a Git submodule to your project. Use the following
+command to add the library as a submodule:
 
 ```bash
-git submodule add https://github.com/shgysk8zer0/polyfills.git :path
+git submodule add https://github.com/shgysk8zer0/polyfills.git [:path/to/destination]
 ```
+
+## Usage
+
+To use the polyfills in your project, simply import them using ES6 modules:
+
+```javascript
+import '@shgysk8zer0/polyfills';
+// Or
+import 'https://unpkg.com/@shgysk8zer0/polyfills/all.js';
+```
+
+This will load all the polyfills in the library.
+
+If you only need certain polyfills, you can import them individually:
+
+```javascript
+import '@shgysk8zer0/polyfills/sanitizer.js';
+import '@shgysk8zer0/polyfills/trustedTypes.js';
+import '@shgysk8zer0/polyfills/elementInternals.js';
+```
+
+### Import Map
+
+You can avoid installing altogether while keeping the familiar syntax by using
+an [import map](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap).
+If you use Rollup, see [`@shgysk8zer0/rollup-import`](https://www.npmjs.com/package/@shgysk8zer0/rollup-import).
+for more details.
+
+```html
+<script type="importmap">
+{
+  "imports": {
+    "@shgysk8zer0/polyfills": "https://unpkg.com/@shgysk8zer0/polyfills@0.0.6/all.min.js",
+    "@shgysk8zer0/polyfills/": "https://unpkg.com/@shgysk8zer0/polyfills@0.0.6/",
+  }
+}
+</script>
+```
+
+## Contributing
+
+If you would like to contribute to the library, please follow these steps:
+
+1. Fork the repository.
+2. Create a branch for your changes.
+3. Make your changes.
+4. Submit a pull request.
+
+Please make sure that your changes are thoroughly tested and that they follow the same coding style as the rest of the library.
+
+## License
+
+@shgysk8zer0/polyfills is licensed under the MIT license. See the [LICENSE](https://github.com/shgysk8zer0/polyfills/blob/master/LICENSE) file for more details.
