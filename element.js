@@ -126,7 +126,7 @@ if (! (HTMLImageElement.prototype.decode instanceof Function)) {
 if (
 	! (Element.prototype.setHTML instanceof Function)
 	&& 'Sanitizer' in globalThis
-	&& globalThis.Sanitizer.sanitizeFor instanceof Function
+	&& globalThis.Sanitizer.prototype.sanitizeFor instanceof Function
 ) {
 	Element.prototype.setHTML = function setHTML(input, { sanitizer = new globalThis.Sanitizer() } = {}) {
 		if (
