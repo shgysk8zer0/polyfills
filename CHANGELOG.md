@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.0.7] - 2023-05-15
+
+### Fixed
+- Correctly check for support of `Sanitizer.prototype.sanitizeFor()`
+
 ## [v0.0.6] - 2023-05-15
 
 ### Added
