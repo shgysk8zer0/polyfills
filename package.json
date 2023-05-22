@@ -53,6 +53,6 @@
     "eslint": "^8.40.0",
     "htmlhint": "^1.1.4",
     "http-server": "^14.1.1",
-    "rollup": "^2.79.1"
+    "rollup": "^3.23.0"
   }
 }
