@@ -12,12 +12,16 @@ on:
     # The branches below must be a subset of the branches above
     branches: [master]
   schedule:
-    - cron: '0 15 * * 2'
+    - cron: '0 19 * * 5'
 
 jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
+
+    permissions:
+      # required for all workflows
+      security-events: write
 
     strategy:
       fail-fast: false
