@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.0.8] - 2023-0602
+
+### Added
+- `URL.canParse()` [#15]
+- `utils.js` module with helper functions (`polyfillMethod()`, currently)
+
 ### Fixed
 - Update GitHub Release Action with correct permissions
 

@@ -1,12 +1,12 @@
 /**
  * @copyright 2023 Chris Zuber <admin@kernvalley.us>
  */
-
-import './deprefixer.js';
-import './symbols.js';
-import './array.js';
 import './globalThis.js';
+import './deprefixer.js';
+import './array.js';
+import './symbols.js';
 import './function.js';
+import './url.js';
 import './number.js';
 import './iterator.js';
 import './math.js';
