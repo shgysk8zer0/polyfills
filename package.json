@@ -50,10 +50,8 @@
   },
   "homepage": "https://github.com/shgysk8zer0/polyfills#readme",
   "devDependencies": {
-    "@rollup/plugin-terser": "^0.4.1",
-    "eslint": "^8.40.0",
+    "@shgysk8zer0/js-utils": "^1.0.0",
     "htmlhint": "^1.1.4",
-    "http-server": "^14.1.1",
-    "rollup": "^3.23.0"
+    "http-server": "^14.1.1"
   }
 }

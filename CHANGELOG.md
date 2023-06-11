@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Add `@shgysk8zer0/js-utils`
+
+### Removed
+- Remove `eslint` and `rollup` and plugins
+
 ## [v0.0.8] - 2023-06-02
 
 ### Added
