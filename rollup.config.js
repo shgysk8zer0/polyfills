@@ -1,12 +1,8 @@
 /* eslint-env node */
-import terser from '@rollup/plugin-terser';
+import { getConfig } from '@shgysk8zer0/js-utils/rollup';
 
-export default {
-	input: 'all.js',
-	output: {
-		file: 'all.min.js',
-		format: 'iife',
-		sourcemap: true,
-	},
-	plugins: [terser()],
-};
+export default getConfig('./all.js', {
+	sourcemap: true,
+	minify: true,
+	format: 'iife',
+});
