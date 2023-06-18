@@ -4,7 +4,7 @@
 import { SanitizerConfig as defaultConfig } from './SanitizerConfigW3C.js';
 import { createPolicy } from './trust.js';
 import { isObject, getType, callOnce } from './utility.js';
-import { urls } from './attributes.js';
+import { urls, events } from './attributes.js';
 
 export const supported = () => 'Sanitizer' in globalThis;
 export const nativeSupport = supported();
@@ -78,10 +78,12 @@ export function sanitizeFor(tag, content, { config = defaultConfig } = {}) {
 	return el;
 }
 
-export function sanitizeNode(node, { config = defaultConfig } = {}) {
+export function sanitizeNode(root, { config = defaultConfig } = {}) {
 	try {
-		if (! (node instanceof Node)) {
-			throw new TypeError(`Expected a Node but got a ${getType(node)}.`);
+		if (config instanceof Sanitizer) {
+			return sanitizeNode(root, { config: config.getConfiguration() });
+		} else if (! (root instanceof Node)) {
+			throw new TypeError(`Expected a Node but got a ${getType(root)}.`);
 		} else if (! isObject(config)) {
 			throw new TypeError(`Expected config to be an object but got ${getType(config)}.`);
 		}
@@ -89,120 +91,101 @@ export function sanitizeNode(node, { config = defaultConfig } = {}) {
 		const {
 			allowElements, allowComments, allowAttributes, allowCustomElements,
 			blockElements, dropAttributes, dropElements, allowUnknownMarkup,
-		} = config;
+		} = convertSanitizerConfig(config);
 
-		switch(node.nodeType) {
-			case Node.TEXT_NODE:
-				break;
+		const iter = document.createNodeIterator(
+			root.cloneNode(true),
+			NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_COMMENT | NodeFilter.SHOW_DOCUMENT_FRAGMENT,
+		);
 
-			case Node.ELEMENT_NODE: {
-				if (
-					! allowUnknownMarkup
-					&& ( ! (node instanceof HTMLElement) || node instanceof HTMLUnknownElement)
-				) {
-					node.remove();
+		let node = iter.root.nodeType === Node.ELEMENT_NODE
+			? iter.referenceNode
+			: iter.nextNode();
+
+		while (node instanceof Node) {
+			switch(node.nodeType) {
+				case Node.ELEMENT_NODE: {
+					if (
+						! allowUnknownMarkup
+						&& ( ! (node instanceof HTMLElement) || node instanceof HTMLUnknownElement)
+					) {
+						node.remove();
+						break;
+					}
+
+					const tag = node.tagName.toLowerCase();
+
+					if (Array.isArray(dropElements) && dropElements.includes(tag)) {
+						node.remove();
+					} else if (Array.isArray(blockElements) && blockElements.includes(tag)) {
+						if (node.hasChildNodes()) {
+							node.replaceWith(...node.childNodes);
+						} else {
+							node.remove();
+						}
+					} else if (tag.includes('-') && ! allowCustomElements) {
+						node.remove();
+					} else if (Array.isArray(allowElements) && ! allowElements.includes(tag)) {
+						node.remove();
+					} else if (node.hasAttributes()) {
+						node.getAttributeNames()
+							.forEach(attrName => {
+								const attr = node.getAttributeNode(attrName);
+								const { value, ownerElement } = attr;
+								const name = attr.name.toLowerCase();
+
+								if (
+									urls.includes(name)
+									&& ! allowProtocols.includes(new URL(value, document.baseURI).protocol)
+								) {
+									ownerElement.removeAttributeNode(attr);
+								} else if (isObject(dropAttributes)) {
+									if (
+										name in dropAttributes
+										&& ['*', tag].some(sel => dropAttributes[name].includes(sel))
+									) {
+										ownerElement.removeAttributeNode(attr);
+
+										if (name.startsWith('on')) {
+											delete ownerElement[name];
+										}
+									}
+								} else if (isObject(allowAttributes)) {
+									if (
+										! name.startsWith('data-')
+										&& ! (name in allowAttributes
+										&& ['*', tag].some(sel => allowAttributes[name].includes(sel)))
+									) {
+										ownerElement.removeAttributeNode(attr);
+
+										if (events.includes(name)) {
+											delete ownerElement[name];
+										}
+									}
+								}
+							});
+					}
+
 					break;
 				}
 
-				const tag = node.tagName.toLowerCase();
-
-				if (Array.isArray(dropElements) && dropElements.includes(tag)) {
-					node.remove();
-				} else if (Array.isArray(blockElements) && blockElements.includes(tag)) {
-					if (node.hasChildNodes()) {
-						[...node.childNodes].forEach(node => sanitizeNode(node, { config }));
-						node.replaceWith(...node.childNodes);
-					} else {
+				case Node.COMMENT_NODE: {
+					if (! allowComments) {
 						node.remove();
 					}
-				} else if (tag.includes('-') && ! allowCustomElements) {
-					node.remove();
-				} else if (Array.isArray(allowElements) && ! allowElements.includes(tag)) {
-					node.remove();
-				} else if (tag === 'template') {
-					sanitizeNode(node.content, { config });
-				} else {
-					if (node.hasAttributes()) {
-						node.getAttributeNames()
-							.forEach(attr => sanitizeNode(node.getAttributeNode(attr), { config }));
-					}
 
-					if (node.hasChildNodes()) {
-						[...node.childNodes].forEach(node => sanitizeNode(node, { config }));
-					}
+					break;
 				}
-
-				break;
 			}
 
-			case Node.ATTRIBUTE_NODE: {
-				const { value, ownerElement } = node;
-				const name = node.name.toLowerCase();
-				const tag = ownerElement.tagName.toLowerCase();
-
-				if (
-					urls.includes(name)
-					&& ! allowProtocols.includes(new URL(value, document.baseURI).protocol)
-				) {
-					ownerElement.removeAttributeNode(node);
-				} else if (isObject(dropAttributes)) {
-					if (
-						name in dropAttributes
-						&& ['*', tag].some(sel => dropAttributes[name].includes(sel))
-					) {
-						ownerElement.removeAttributeNode(node);
-
-						if (name.startsWith('on')) {
-							delete ownerElement[name];
-						}
-					}
-				} else if (isObject(allowAttributes)) {
-					if (
-						! name.startsWith('data-')
-						&& ! (name in allowAttributes
-						&& ['*', tag].some(sel => allowAttributes[name].includes(sel)))
-					) {
-						ownerElement.removeAttributeNode(node);
-
-						if (name.startsWith('on')) {
-							delete ownerElement[name];
-						}
-					}
-				}
-
-				break;
-			}
-
-			case Node.COMMENT_NODE: {
-				if (! allowComments) {
-					node.remove();
-				}
-
-				break;
-			}
-
-			case Node.DOCUMENT_NODE:
-			case Node.DOCUMENT_FRAGMENT_NODE: {
-				if (node.hasChildNodes()) {
-					[...node.childNodes].forEach(node => sanitizeNode(node, { config }));
-				}
-
-				break;
-			}
-
-			case Node.CDATA_SECTION_NODE:
-			case Node.PROCESSING_INSTRUCTION_NODE:
-			case Node.DOCUMENT_TYPE_NODE:
-			default: {
-				node.parentElement.removeChild(node);
-			}
+			node = iter.nextNode();
 		}
-	} catch(err) {
-		node.parentElement.removeChild(node);
-		console.error(err);
-	}
 
-	return node;
+		return iter.root;
+	} catch(err) {
+		console.error(err);
+		root.parentElement.removeChild(root);
+	}
 }
 
 export function getSantizerUtils(Sanitizer, defaultConfig) {
