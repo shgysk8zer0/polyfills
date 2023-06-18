@@ -36,6 +36,8 @@ export class Sanitizer {
 			allowElements, allowComments, allowAttributes, allowCustomElements,
 			blockElements, dropAttributes, dropElements, allowUnknownMarkup,
 		});
+
+		console.log({ sanitizer: this.getConfiguration() });
 	}
 
 	getConfiguration() {

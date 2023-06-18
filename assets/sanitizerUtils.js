@@ -25,11 +25,44 @@ function documentToFragment(doc) {
 	return frag;
 }
 
+/**
+ * Helper function to adapt to changes in spec
+ */
+export function convertSanitizerConfig({
+	allowAttributes, allowComments, allowElements, allowCustomElements,
+	blockElements, dropAttributes, dropElements, allowUnknownMarkup, sanitizer,
+} = {}, context) {
+	if (sanitizer instanceof Sanitizer) {
+		return convertSanitizerConfig(sanitizer.getConfiguration(), context);
+	} else {
+		switch (context) {
+			default:
+				return {
+					allowAttributes, allowComments, allowElements, allowCustomElements,
+					blockElements, dropAttributes, dropElements, allowUnknownMarkup,
+				};
+		}
+	}
+}
+
+export function safeParseHTML(input, { sanitizer, ...config } = {}) {
+	const policy = getPolicy();
+	const doc = new DOMParser().parseFromString(policy.createHTML(input), 'text/html');
+
+	if (sanitizer instanceof Sanitizer) {
+		sanitizeNode(doc, { config: sanitizer.getConfiguration() });
+	} else {
+		sanitizeNode(doc, { config });
+	}
+
+	return doc;
+}
+
 export function sanitize(input, { config = defaultConfig } = {}) {
 	if (! (input instanceof Node)) {
 		throw new TypeError('sanitize requires a Document or DocumentFragment');
 	} else if (input.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
-		return sanitizeNode(input, config);
+		return sanitizeNode(input, { config });
 	} else if (input.nodeType === Node.DOCUMENT_NODE) {
 		return sanitizeNode(documentToFragment(input), { config });
 	} else {
@@ -77,7 +110,7 @@ export function sanitizeNode(node, { config = defaultConfig } = {}) {
 					node.remove();
 				} else if (Array.isArray(blockElements) && blockElements.includes(tag)) {
 					if (node.hasChildNodes()) {
-						[...node.childNodes].forEach(node => sanitizeNode(node, config));
+						[...node.childNodes].forEach(node => sanitizeNode(node, { config }));
 						node.replaceWith(...node.childNodes);
 					} else {
 						node.remove();
@@ -87,15 +120,15 @@ export function sanitizeNode(node, { config = defaultConfig } = {}) {
 				} else if (Array.isArray(allowElements) && ! allowElements.includes(tag)) {
 					node.remove();
 				} else if (tag === 'template') {
-					sanitizeNode(node.content, config);
+					sanitizeNode(node.content, { config });
 				} else {
 					if (node.hasAttributes()) {
 						node.getAttributeNames()
-							.forEach(attr => sanitizeNode(node.getAttributeNode(attr), config));
+							.forEach(attr => sanitizeNode(node.getAttributeNode(attr), { config }));
 					}
 
 					if (node.hasChildNodes()) {
-						[...node.childNodes].forEach(node => sanitizeNode(node, config));
+						[...node.childNodes].forEach(node => sanitizeNode(node, { config }));
 					}
 				}
 
@@ -151,7 +184,7 @@ export function sanitizeNode(node, { config = defaultConfig } = {}) {
 			case Node.DOCUMENT_NODE:
 			case Node.DOCUMENT_FRAGMENT_NODE: {
 				if (node.hasChildNodes()) {
-					[...node.childNodes].forEach(node => sanitizeNode(node, config));
+					[...node.childNodes].forEach(node => sanitizeNode(node, { config }));
 				}
 
 				break;

@@ -4,16 +4,23 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="color-scheme" content="light dark" />
-		<meta http-http-equiv="Content-Security-Policy" content="default-src 'self'" />
+		<meta http-equiv="Content-Security-Policy"
+			content="default-src 'self';
+			script-src 'self' https://unpkg.com/@shgysk8zer0/;
+			style-src 'self' blob:;
+			trusted-types sanitizer-raw#html;
+			require-trusted-types-for 'script';"
+		/>
 		<title>JavaScript Polyfills Test</title>
 		<script type="module" src="./js/index.js" referrerpolicy="no-referrer"></script>
+		<script src="https://unpkg.com/@shgysk8zer0/kazoo@0.0.16/harden.js" integrity="sha384-55L/wO9o0uIVTeubRIDQB4bewfNqyxrj4OXuxlW24NMEk+ioZwMHVw/tFV78mM+k" crossorigin="anonymous" referrerpolicy="no-referrer" defer=""></script>
 		<link rel="icon" href="./favicon.svg" type="image/svg+xml" sizes="any" />
 		<link rel="stylesheet" href="./css/index.css" referrerpolicy="no-referrer" />
 	</head>
-	<body>
-		<header id="header"></header>
-		<main id="main"></main>
-		<aside id="sidebar"></aside>
-		<footer id="footer"></footer>
+	<body style="background: pink;">
+		<header id="header">Header</header>
+		<main id="main">Main</main>
+		<aside id="sidebar">Sidebar</aside>
+		<footer id="footer">Footer</footer>
 	</body>
 </html>

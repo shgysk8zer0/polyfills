@@ -33,6 +33,7 @@
       "globalThis": "readonly",
       "trustedTypes": "readonly",
       "TrustedTypePolicy": "readonly",
-      "ElementInternals": "readonly"
+      "ElementInternals": "readonly",
+      "Sanitizer": "readonly"
     }
 }
