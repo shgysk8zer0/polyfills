@@ -97,7 +97,7 @@ export function sanitizeNode(root, opts = defaultConfig) {
 
 		const iter = document.createNodeIterator(
 			root,
-			NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_COMMENT | NodeFilter.SHOW_DOCUMENT_FRAGMENT,
+			NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_COMMENT,
 		);
 
 		let node = iter.root.nodeType === Node.ELEMENT_NODE
@@ -106,10 +106,6 @@ export function sanitizeNode(root, opts = defaultConfig) {
 
 		while (node instanceof Node) {
 			switch(node.nodeType) {
-				case Node.DOCUMENT_FRAGMENT_NODE:
-					console.log('It is a frag');
-					break;
-
 				case Node.ELEMENT_NODE: {
 					if (
 						! allowUnknownMarkup
@@ -177,9 +173,9 @@ export function sanitizeNode(root, opts = defaultConfig) {
 
 			if (node.localName === 'template') {
 				sanitizeNode(node.content, opts);
-			} else {
-				node = iter.nextNode();
 			}
+
+			node = iter.nextNode();
 		}
 
 		return root;
