@@ -1,4 +1,6 @@
 import { aria } from './aom.js';
+import { SanitizerConfig as defaultConfig } from './assets/SanitizerConfigW3C.js';
+import { setHTML as safeSetHTML } from './assets/sanitizerUtils.js';
 
 if (! (HTMLScriptElement.supports instanceof Function)) {
 	HTMLScriptElement.supports = function supports(type) {
@@ -123,21 +125,9 @@ if (! (HTMLImageElement.prototype.decode instanceof Function)) {
 	};
 }
 
-if (
-	! (Element.prototype.setHTML instanceof Function)
-	&& 'Sanitizer' in globalThis
-	&& globalThis.Sanitizer.prototype.sanitizeFor instanceof Function
-) {
-	Element.prototype.setHTML = function setHTML(input, { sanitizer = new globalThis.Sanitizer() } = {}) {
-		if (
-			('Sanitizer' in globalThis && sanitizer instanceof globalThis.Sanitizer)
-			|| (typeof sanitizer !== 'undefined' && sanitizer.sanitizeFor instanceof Function)
-		) {
-			const el = sanitizer.sanitizeFor(this.tagName.toLowerCase(), input);
-			this.replaceChildren(...el.children);
-		} else {
-			throw new TypeError('`sanitizer` is not a valid Sanitizer');
-		}
+if (! (Element.prototype.setHTML instanceof Function)) {
+	Element.prototype.setHTML = function setHTML(input, opts = defaultConfig) {
+		safeSetHTML(this, input, opts);
 	};
 }
 
