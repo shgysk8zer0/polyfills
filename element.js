@@ -129,6 +129,14 @@ if (! (Element.prototype.setHTML instanceof Function)) {
 	Element.prototype.setHTML = function setHTML(input, opts = defaultConfig) {
 		safeSetHTML(this, input, opts);
 	};
+} else {
+	Element.prototype.setHTML = function setHTML(input, opts = defaultConfig) {
+		if (! (opts.sanitizer instanceof Sanitizer)) {
+			this.setHTML(input, { sanitizer: new Sanitizer(opts) });
+		} else {
+			this.setHTML(input, opts);
+		}
+	};
 }
 
 if (! HTMLTemplateElement.prototype.hasOwnProperty('shadowRootMode')) {
