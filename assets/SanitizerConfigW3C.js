@@ -111,6 +111,7 @@ export const SanitizerConfigW3C = JSON.parse(`{
     "table",
     "tbody",
     "td",
+    "template",
     "tfoot",
     "th",
     "thead",

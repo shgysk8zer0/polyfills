@@ -101,11 +101,15 @@ export function sanitizeNode(root, opts = defaultConfig) {
 		);
 
 		let node = iter.root.nodeType === Node.ELEMENT_NODE
-			? iter.referenceNode
+			? iter.root
 			: iter.nextNode();
 
 		while (node instanceof Node) {
 			switch(node.nodeType) {
+				case Node.DOCUMENT_FRAGMENT_NODE:
+					console.log('It is a frag');
+					break;
+
 				case Node.ELEMENT_NODE: {
 					if (
 						! allowUnknownMarkup
@@ -129,9 +133,9 @@ export function sanitizeNode(root, opts = defaultConfig) {
 						node.remove();
 					} else if (Array.isArray(allowElements) && ! allowElements.includes(tag)) {
 						node.remove();
-					} else if (node.hasAttributes()) {
-						node.getAttributeNames()
-							.forEach(name => {
+					} else {
+						if (node.hasAttributes()) {
+							node.getAttributeNames().forEach(name => {
 								const attr = node.getAttributeNode(name);
 								const { value } = attr;
 
@@ -156,6 +160,7 @@ export function sanitizeNode(root, opts = defaultConfig) {
 									}
 								}
 							});
+						}
 					}
 
 					break;
@@ -170,7 +175,11 @@ export function sanitizeNode(root, opts = defaultConfig) {
 				}
 			}
 
-			node = iter.nextNode();
+			if (node.localName === 'template') {
+				sanitizeNode(node.content, opts);
+			} else {
+				node = iter.nextNode();
+			}
 		}
 
 		return root;
