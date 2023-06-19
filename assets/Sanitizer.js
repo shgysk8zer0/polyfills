@@ -1,7 +1,7 @@
 /**
  * @copyright 2022-2023 Chris Zuber <admin@kernvalley.us>
  */
-import { nativeSupport, getSantizerUtils, sanitize, sanitizeFor, trustPolicies } from './sanitizerUtils.js';
+import { nativeSupport, getSantizerUtils, sanitize, trustPolicies } from './sanitizerUtils.js';
 import { SanitizerConfig as defaultConfig } from './SanitizerConfigW3C.js';
 
 const protectedData = new WeakMap();
@@ -43,11 +43,13 @@ export class Sanitizer {
 	}
 
 	sanitize(input) {
-		return sanitize(input, { config: this.getConfiguration() });
+		return sanitize(input, this.getConfiguration());
 	}
 
 	sanitizeFor(tag, content) {
-		return sanitizeFor(tag, content, { config: this.getConfiguration() });
+		const el = document.createElement(tag);
+		el.setHTML(content, this.getConfiguration());
+		return el;
 	}
 
 	static getDefaultConfiguration() {
