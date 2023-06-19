@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.1.1] - 2023-06-19
+
+### Fixed
+- Fix sanitizer config for `Document.parseHTML()` when parsing for `CSSStyleSheet`s
+
 ## [v0.1.0] - 2023-06-19
 
 ### Added

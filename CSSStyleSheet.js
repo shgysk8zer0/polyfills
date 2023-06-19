@@ -1,11 +1,11 @@
 export function createSheet(rules = '', { disabled = false, media } = {}) {
 	const style = Document.parseHTML(
 		`<style>${rules}</style>`,
-		{ sanitizer: new Sanitizer({ allowElements: ['style'] }) }
+		{ sanitizer: new Sanitizer({ allowElements: ['style', 'html', 'head', 'body'] }) }
 	);
 
-
 	const sheet = style.styleSheets.item(0);
+
 	if (typeof media === 'string') {
 		sheet.media.appendMedium(media);
 	}
