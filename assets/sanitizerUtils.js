@@ -57,8 +57,29 @@ export function convertSanitizerConfig({
 	}
 }
 
+export function convertToSanitizerConfig({
+	allowAttributes, allowComments, allowElements, allowCustomElements,
+	blockElements, dropAttributes, dropElements, allowUnknownMarkup,
+} = {}) {
+	if (typeof allowAttributes === 'undefined' && typeof dropAttributes === 'undefined') {
+		allowAttributes = defaultConfig.allowAttributes;
+	}
+
+	if (typeof allowElements === 'undefined' && typeof dropElements === 'undefined') {
+		allowElements = defaultConfig.allowElements;
+	}
+	return {
+		allowAttributes, allowComments, allowElements, allowCustomElements,
+		blockElements, dropAttributes, dropElements, allowUnknownMarkup,
+	};
+}
+
 export function safeParseHTML(input, opts = defaultConfig) {
 	const doc = new DOMParser().parseFromString(createHTML(input), 'text/html');
+	// Not sure if this will be in spec, but it is necessary
+	if (Array.isArray(opts.allowElements) && ! opts.allowElements.includes('html') ) {
+		opts.allowElements = [...new Set([...opts.allowElements, 'html' ,'head', 'body'])];
+	}
 	return sanitizeNode(doc, opts);
 }
 

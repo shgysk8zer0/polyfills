@@ -1,6 +1,7 @@
 import { aria } from './aom.js';
+import { overwriteMethod } from './utils.js';
 import { SanitizerConfig as defaultConfig } from './assets/SanitizerConfigW3C.js';
-import { setHTML as safeSetHTML } from './assets/sanitizerUtils.js';
+import { setHTML as safeSetHTML, convertToSanitizerConfig } from './assets/sanitizerUtils.js';
 
 if (! (HTMLScriptElement.supports instanceof Function)) {
 	HTMLScriptElement.supports = function supports(type) {
@@ -130,13 +131,16 @@ if (! (Element.prototype.setHTML instanceof Function)) {
 		safeSetHTML(this, input, opts);
 	};
 } else {
-	Element.prototype.setHTML = function setHTML(input, opts = defaultConfig) {
-		if (! (opts.sanitizer instanceof Sanitizer)) {
-			this.setHTML(input, { sanitizer: new Sanitizer(opts) });
-		} else {
-			this.setHTML(input, opts);
-		}
-	};
+	overwriteMethod(Element.prototype, 'setHTML', function(orig) {
+		return function setHTML(input, opts = {}) {
+			if (! (opts.sanitizer instanceof Sanitizer)) {
+				const sanitizer = new Sanitizer(convertToSanitizerConfig(opts));
+				orig.call(this, input, { sanitizer });
+			} else {
+				orig.call(this, input, opts);
+			}
+		};
+	});
 }
 
 if (! HTMLTemplateElement.prototype.hasOwnProperty('shadowRootMode')) {
