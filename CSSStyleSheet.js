@@ -73,7 +73,7 @@ if (! (CSSStyleSheet.prototype.replaceSync instanceof Function)) {
 	CSSStyleSheet.prototype.replaceSync = function replaceSync(rules) {
 		const sheet = Document.parseHTML(
 			`<style>${rules}</style>`,
-			{ sanitizer: new Sanitizer({ allowElements: ['style'] }) }
+			{ sanitizer: new Sanitizer({ allowElements: ['style', 'html', 'head', 'body'] }) }
 		).styleSheets.item(0);
 
 		clearCSSRules(this);
