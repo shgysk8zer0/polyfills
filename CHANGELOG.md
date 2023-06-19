@@ -6,11 +6,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.1.0] - 2023-06-19
+
 ### Added
+- Add shim for `Document.parseHTML`
+- Add shim for constructable stylesheets (#21)
 - Add `@shgysk8zer0/js-utils`
+
+### Changed
+- `el.setHTML()` now conforms to the updated draft Sanitizer API spec
 
 ### Removed
 - Remove `eslint` and `rollup` and plugins
+
+### Deprecated
+- Sanitizer is now considered deprecated, pending changes to the spec
 
 ## [v0.0.8] - 2023-06-02
 

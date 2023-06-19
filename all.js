@@ -22,7 +22,7 @@ import './crypto.js';
 import './cookieStore.js';
 import './animation.js';
 import './trustedTypes.js';
-import './sanitizer.js';
+import './deprecated/sanitizer.js';
 import './Document.js';
 import './ShadowRoot.js';
 import './CSSStyleSheet.js';
