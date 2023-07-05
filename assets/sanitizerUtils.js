@@ -11,7 +11,7 @@ export const nativeSupport = supported();
 
 export const setHTML = function setHTML(el, input, opts = defaultConfig) {
 	const doc = safeParseHTML(input, opts);
-	el.append(documentToFragment(doc));
+	el.replaceChildren(documentToFragment(doc));
 };
 
 const allowProtocols = ['https:'];
