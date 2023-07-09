@@ -20,7 +20,9 @@
 			enumerable: true,
 			configurable: true,
 			get: function isSecureContext() {
-				if (protocols.includes(location.protocol) || hostnames.includes(location.hostname)) {
+				if (window.parent !== window) {
+					return false;
+				} else if (protocols.includes(location.protocol) || hostnames.includes(location.hostname)) {
 					return hasSecureScripts();
 				} else {
 					return false;

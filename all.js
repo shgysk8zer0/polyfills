@@ -3,6 +3,7 @@
  */
 import './globalThis.js';
 import './deprefixer.js';
+import './map.js';
 import './array.js';
 import './symbols.js';
 import './function.js';
@@ -28,8 +29,8 @@ import './ShadowRoot.js';
 import './CSSStyleSheet.js';
 import './element.js';
 import './set.js';
-import './map.js';
 import './weakMap.js';
 import './window.js';
 import './scheduler.js';
 import './elementInternals.js';
+import './response.js';
