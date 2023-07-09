@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.2.2] - 2023-07-09
+
+### Added
+- Add `Response.json()` static method
+
+### Fixed
+- Fix order of loading polyfills to support `arr.groupToMap()`
+
 ## [v0.2.1] - 2023-07-05
 
 ### Fixed
