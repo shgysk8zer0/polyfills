@@ -170,3 +170,24 @@ if (! HTMLTemplateElement.prototype.hasOwnProperty('shadowRootMode')) {
 		attachShadows(document);
 	}
 }
+
+if (! (HTMLFormElement.prototype.requestSubmit instanceof Function)) {
+	HTMLFormElement.prototype.requestSubmit = function(submitter) {
+		if (typeof submitter === 'undefined') {
+			const btn = document.createElement('button');
+			btn.type = 'submit';
+			btn.hidden = true;
+			this.append(btn);
+			this.requestSubmit(btn);
+			setTimeout(() => btn.remove(), 100);
+		} else if (! (submitter instanceof HTMLButtonElement || submitter instanceof HTMLInputElement)) {
+			throw new TypeError('HTMLFormElement.requestSubmit: The submitter is not a submit button.');
+		} else if (submitter.type !== 'submit' && ! (submitter instanceof HTMLInputElement && submitter.type === 'image')) {
+			throw new TypeError('HTMLFormElement.requestSubmit: The submitter is not a submit button.');
+		} else if (! this.isSameNode(submitter.form)) {
+			throw new DOMException('HTMLFormElement.requestSubmit: The submitter is not owned by this form.', 'NotFoundError');
+		} else {
+			submitter.click();
+		}
+	};
+}
