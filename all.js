@@ -3,6 +3,7 @@
  */
 import './globalThis.js';
 import './deprefixer.js';
+import './object.js';
 import './map.js';
 import './array.js';
 import './symbols.js';

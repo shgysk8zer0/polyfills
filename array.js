@@ -85,59 +85,45 @@
 	}
 
 	/**
+	 * @deprecated [moved to `Object.groupBy()`]
 	 * @see https://github.com/tc39/proposal-array-grouping
 	 */
-	if (! (Array.prototype.group instanceof Function)) {
-		Array.prototype.group = function group(callback, thisArg = globalThis) {
-			return this.reduce((groups, item, index, arr) => {
-				const key = callback.call(thisArg, item, index, arr);
-
-				if (! groups.hasOwnProperty(key)) {
-					groups[key] = [item];
-				} else {
-					groups[key].push(item);
-				}
-
-				return groups;
-			}, {});
+	if (! (Array.prototype.group instanceof Function) && Object.groupBy instanceof Function) {
+		Array.prototype.group = function group(callback) {
+			console.warn('`Array.group()` is deprecated. Please use `Object.groupBy()` instead.');
+			return Object.groupBy(this, callback);
 		};
 	}
 
 	/**
-	 * @deprecated [renamed to `group()`]
+	 * @deprecated [moved to `Object.groupBy()`]
 	 */
-	Array.prototype.groupBy = function groupBy(...args) {
-		console.warn('`goupBy` is deprecated. Please use `group` instead.');
-		return this.group(...args);
-	};
+	if (! (Array.prototype.groupBy instanceof Function) && Object.groupBy instanceof Function) {
+		Array.prototype.groupBy = function groupBy(callback) {
+			console.warn('`Array.goupBy()` is deprecated. Please use `Object.groupBy()` instead.');
+			return Object.groupBy(this, callback);
+		};
+	}
 
 	/**
 	 * @see https://github.com/tc39/proposal-array-grouping
+	 * @deprecated [moved to `Map.groupBy()`]
 	 * @requires `Map.prototype.emplace`
 	 */
-	if (! (Array.prototype.groupToMap instanceof Function) && (Map.prototype.emplace instanceof Function)) {
-		Array.prototype.groupToMap = function groupToMap(callback, thisArg = globalThis) {
-			return this.reduce((map, item, index, arr) => {
-				map.emplace(callback.call(thisArg, item, index, arr), {
-					insert: () => [item],
-					update: existing => {
-						existing.push(item);
-						return existing;
-					}
-				});
-
-				return map;
-			}, new Map());
+	if (! (Array.prototype.groupToMap instanceof Function) && (Map.groupBy instanceof Function)) {
+		Array.prototype.groupToMap = function groupToMap(callback) {
+			console.warn('`Array.groupToMap()` is deprecated. Please use `Map.groupBy()` instead.');
+			return Map.groupBy(this, callback);
 		};
 	}
 
 	/**
-	 * @deprecated [renamed to `groupToMap()`]
+	 * @deprecated [moved to `Map.groupBy()`]
 	 */
-	if (Map.prototype.emplace instanceof Function) {
-		Array.prototype.groupByToMap = function groupByToMap(...args) {
-			console.warn('`goupByToMap` is deprecated. Please use `groupToMap` instead.');
-			return this.groupToMap(...args);
+	if (Map.groupBy instanceof Function) {
+		Array.prototype.groupByToMap = function groupByToMap(callback) {
+			console.warn('`Array.groupByToMap()` is deprecated. Please use `Map.groupBy()` instead.');
+			return Map.groupBy(this, callback);
 		};
 	}
 

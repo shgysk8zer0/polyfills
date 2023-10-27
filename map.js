@@ -29,4 +29,20 @@
 			}
 		};
 	}
+
+	if (! (Map.groupBy instanceof Function)) {
+		Map.groupBy = function groupTo(items, callbackFn) {
+			return Array.from(items).reduce((map, element, index) => {
+				map.emplace(callbackFn.call(map, element, index), {
+					insert: () => [element],
+					update: existing => {
+						existing.push(element);
+						return existing;
+					}
+				});
+
+				return map;
+			}, new Map());
+		};
+	}
 })();

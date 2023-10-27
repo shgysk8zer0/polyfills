@@ -6,7 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [v0.2.4] - 2023-008-23
+## [v0.2.5] - 2023-10-26
+
+### Added
+- `Map.groupBy()`
+- `Object.groupBy()`
+
+### Deprecated
+- `Array.group()`
+- `Array.groupToMap()`
+
+## [v0.2.4] - 2023-08-23
 
 ### Added
 - Add polyfill for `HTMLFormElement.prototype.requestSubmit()`
