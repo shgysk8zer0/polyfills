@@ -1,5 +1,5 @@
 import { aria } from './aom.js';
-import { overwriteMethod } from './utils.js';
+import { overwriteMethod, polyfillGetterSetter } from './utils.js';
 import { SanitizerConfig as defaultConfig } from './assets/SanitizerConfigW3C.js';
 import { setHTML as safeSetHTML, convertToSanitizerConfig } from './assets/sanitizerUtils.js';
 
@@ -190,4 +190,26 @@ if (! (HTMLFormElement.prototype.requestSubmit instanceof Function)) {
 			submitter.click();
 		}
 	};
+}
+
+if (! ('loading' in HTMLIFrameElement.prototype)) {
+	polyfillGetterSetter(HTMLIFrameElement.prototype, 'loading', {
+		get: function() {
+			return this.getAttribute('loading') || 'auto';
+		},
+		set: function(val) {
+			this.setAttribute('loading', val);
+		}
+	});
+}
+
+if (! ('credentialless' in HTMLIFrameElement.prototype)) {
+	polyfillGetterSetter(HTMLIFrameElement.prototype, 'credentialless', {
+		get: function() {
+			return this.hasAttribute('credentialless');
+		},
+		set: function(val) {
+			this.toggleAttribute('credentialless', val);
+		}
+	});
 }
