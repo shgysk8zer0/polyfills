@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.2.6]- 2023-10-29
+
+### Added
+-  `cookieStore` now supports `partitioned`
+- `<iframe credentialless>` & `<iframe loading="lazy">` (just the attributes / getters & setters)
+
+### Removed
+- Do not set `httpOnly` in `cookieStore`
+
+### Changed
+- Change default `sameSite` to `'lax'` for `cookieStore`s
+
 ## [v0.2.5] - 2023-10-26
 
 ### Added

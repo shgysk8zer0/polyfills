@@ -28,6 +28,7 @@ function getAllCookies() {
 				domain: undefined,
 				sameSite: undefined,
 				secure: undefined,
+				partitioned: false,
 			};
 		});
 	}
@@ -40,11 +41,11 @@ function defaultParams({
 	path     = '/',
 	expires  = null,
 	maxAge   = null,
-	sameSite = 'strict',
+	sameSite = 'lax',
 	secure   = false,
-	httpOnly = false,
+	partitioned = false,
 }) {
-	return { name, value, domain, path, expires, maxAge, sameSite, secure, httpOnly };
+	return { name, value, domain, path, expires, maxAge, sameSite, secure, partitioned };
 }
 
 function getter({ name = null, value = null } = {}) {
@@ -75,14 +76,14 @@ function setter({
 	expires  = null,
 	maxAge   = null,
 	path     = '/',
-	sameSite = 'strict',
+	sameSite = 'lax',
 	domain   = null,
 	secure   = false,
-	httpOnly = false,
+	partitioned = false,
 }) {
 	if (Number.isInteger(maxAge)) {
 		setter({
-			name, value, expires: Date.now() + maxAge, path, sameSite, domain, secure, httpOnly,
+			name, value, expires: Date.now() + maxAge, path, sameSite, domain, secure, partitioned,
 		});
 	} else {
 		let cookie = `${encodeURIComponent(name)}=`;
@@ -113,11 +114,8 @@ function setter({
 			cookie += ';secure';
 		}
 
-		/**
-		 * Does not work in any browser, but set regardless
-		 */
-		if (httpOnly === true) {
-			cookie += ';httponly';
+		if (partitioned === true) {
+			cookie += ';partitioned';
 		}
 
 		document.cookie = cookie;
@@ -173,7 +171,7 @@ export class CookieStore extends EventTarget {
 	}
 
 	async set(...args) {
-		if (args.length === 1 && typeof args[0].name === 'string') {
+		if (args.length === 1 && typeof args[0] === 'object' && typeof args[0].name === 'string') {
 			const cookie = defaultParams(args[0]);
 			setter(cookie);
 			const event = new Event('change');
@@ -191,7 +189,7 @@ export class CookieStore extends EventTarget {
 	async delete(args = {}) {
 		if (typeof args === 'string') {
 			this.delete({ name: args });
-		} else if (typeof args.name === 'string') {
+		} else if (typeof args === 'object' && typeof args.name === 'string') {
 			const cookies = await this.getAll(args);
 
 			if (cookies.length !== 0) {
@@ -204,7 +202,7 @@ export class CookieStore extends EventTarget {
 					cookie.domain = args.domain || null;
 					cookie.secure = args.secure || null;
 					delete cookie.value;
-					cookie.sameSite = args.sameSite || 'strict';
+					cookie.sameSite = args.sameSite || 'lax';
 
 					event.deleted[i] = cookie;
 					setter({...cookie, value: null, expires: 1 });
