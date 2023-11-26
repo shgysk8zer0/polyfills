@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.2.7] - 2023-11-26
+
+### Added
+- Add `Array.prototype.lastIndex` and `Array.prototype.lastItem`
+
 ## [v0.2.6]- 2023-10-29
 
 ### Added

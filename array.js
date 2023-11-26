@@ -50,6 +50,29 @@
 		};
 	}
 
+	if(! ('lastIndex' in Array.prototype)) {
+		Object.defineProperty(Array.prototype, 'lastIndex', {
+			enumerable: false,
+			configurable: false,
+			get: function() {
+				return Math.max(0, this.length - 1);
+			}
+		});
+	}
+
+	if(! ('lastItem' in Array.prototype)) {
+		Object.defineProperty(Array.prototype, 'lastItem', {
+			enumerable: false,
+			configurable: false,
+			get: function() {
+				return this[this.lastIndex];
+			},
+			set: function(val) {
+				this[this.lastIndex] = val;
+			}
+		});
+	}
+
 	if (! (Array.prototype.findLastIndex instanceof Function)) {
 		Array.prototype.findLastIndex = function(callback, thisArg) {
 			let found = -1;
