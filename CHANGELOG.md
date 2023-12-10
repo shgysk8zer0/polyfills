@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Add `Record()` and `Tuple()`... kinda
+- Add `JSON.parseImmutable()`
+
 ## [v0.2.7] - 2023-11-26
 
 ### Added
