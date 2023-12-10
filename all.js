@@ -35,3 +35,6 @@ import './window.js';
 import './scheduler.js';
 import './elementInternals.js';
 import './response.js';
+import './Record.js';
+import './Tuple.js';
+import './JSON.js';
