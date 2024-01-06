@@ -1,3 +1,5 @@
+import { markPolyfilled } from './utils.js';
+
 if (! (globalThis.Record instanceof Function)) {
 	/* eslint-disable no-inner-declarations */
 	function Record(obj) {
@@ -32,4 +34,5 @@ if (! (globalThis.Record instanceof Function)) {
 	};
 
 	globalThis.Record = Record;
+	markPolyfilled(globalThis, 'Record');
 }

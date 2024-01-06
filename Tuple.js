@@ -1,3 +1,5 @@
+import { markPolyfilled } from './utils.js';
+
 if (! (globalThis.Tuple instanceof Function)) {
 	/* eslint-disable no-inner-declarations */
 
@@ -182,4 +184,5 @@ if (! (globalThis.Tuple instanceof Function)) {
 	});
 
 	globalThis.Tuple = Tuple;
+	markPolyfilled(globalThis, 'Tuple');
 }
