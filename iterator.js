@@ -1,197 +1,313 @@
-(function() {
-	'use strict';
+/**
+ * @see https://github.com/tc39/proposal-iterator-helpers
+ */
 
-	/**
-	 * @see https://github.com/tc39/proposal-iterator-helpers
-	 * @TODO implement `flat()`
-	 * @TODO implement `flatMap()`
-	 * @TODO implement `from()`
-	 */
-	if (! ('Iterator' in globalThis)) {
-		globalThis.Iterator = {
-			'prototype': Object.getPrototypeOf(Object.getPrototypeOf([][Symbol.iterator]())),
-		};
-	}
+const supported = 'Iterator' in globalThis;
 
-	const Iterator = globalThis.Iterator;
+const IteratorPrototype = supported
+	? Object.getPrototypeOf(globalThis.Iterator)
+	: Object.getPrototypeOf(Object.getPrototypeOf([][Symbol.iterator]()));
 
-	if (! (Iterator.range instanceof Function)) {
-		Iterator.range = function* range(start, end, option) {
-			if (typeof option === 'number' || typeof option === 'bigint') {
-				for (const n of Iterator.range(start, end, { step: option })) {
-					yield n;
-				}
-			} else if (typeof option !== 'object' || Object.is(option, null)) {
-				for (const n of Iterator.range(start, end, {})) {
-					yield n;
+const Iterator = supported
+	? globalThis.Iterator
+	: (proto => {
+		class Iterator {
+			[Symbol.iterator]() {
+				return this;
+			}
+		}
+
+		Object.setPrototypeOf(Iterator, proto);
+
+		return Iterator;
+	})(IteratorPrototype);
+
+if (! (Iterator.range instanceof Function)) {
+	Iterator.range = function range(start, end, option) {
+		if (typeof option === 'number' || typeof option === 'bigint') {
+			return Iterator.range(start, end, { step: option });
+		} else if (typeof option !== 'object' || Object.is(option, null)) {
+			return Iterator.range(start, end, {});
+		} else {
+			const {
+				// Default to +/-, Number/BigInt based on start & end
+				step = typeof start === 'number'
+					? start < end ? 1 : -1
+					: start < end ? 1n : -1n,
+				inclusive = false,
+			} = option;
+
+			if (typeof start !== 'number' && typeof start !== 'bigint') {
+				throw new TypeError('Start must be a number');
+			} else if (Number.isNaN(start)) {
+				throw new RangeError('Invalid start');
+			} else if (typeof end !== 'number' && typeof end !== 'bigint') {
+				throw new TypeError('End must be a number');
+			} else if (Number.isNaN(end)) {
+				throw new RangeError('Invalid end');
+			} else if (typeof step !== 'number' && typeof step !== 'bigint') {
+				throw new TypeError('Step must be a number');
+			} else if (Number.isNaN(step)) {
+				throw new RangeError('Invalid step');
+			} else if (step === 0) {
+				throw new RangeError('Step must not be 0');
+			} else if ((step < 0 && start < end) || (step > 0 && start > end)) {
+				return;
+			} else if (inclusive) {
+				let n = start;
+				if (step > 0) {
+					return Iterator.from({
+						next() {
+							const ret = n <= end ? { value: n, done: false } : { done: true };
+							n+= step;
+							return ret;
+						}
+					});
+				} else {
+					return Iterator.from({
+						next() {
+							const ret = n >= end ? { value: n, done: false } : { done: true };
+							n+= step;
+							return ret;
+						}
+					});
 				}
 			} else {
-				const {
-					// Default to +/-, Number/BigInt based on start & end
-					step = typeof start === 'number'
-						? start < end ? 1 : -1
-						: start < end ? 1n : -1n,
-					inclusive = false,
-				} = option;
+				let n = start;
 
-				if (typeof start !== 'number' && typeof start !== 'bigint') {
-					throw new TypeError('Start must be a number');
-				} else if (Number.isNaN(start)) {
-					throw new RangeError('Invalid start');
-				} else if (typeof end !== 'number' && typeof end !== 'bigint') {
-					throw new TypeError('End must be a number');
-				} else if (Number.isNaN(end)) {
-					throw new RangeError('Invalid end');
-				} else if (typeof step !== 'number' && typeof step !== 'bigint') {
-					throw new TypeError('Step must be a number');
-				} else if (Number.isNaN(step)) {
-					throw new RangeError('Invalid step');
-				} else if (step === 0) {
-					throw new RangeError('Step must not be 0');
-				} else if ((step < 0 && start < end) || (step > 0 && start > end)) {
-					return;
-				} else if (inclusive) {
-					if (step > 0) {
-						for (let n = start; n <= end; n+= step) {
-							yield n;
+				if (step > 0) {
+					return Iterator.from({
+						next() {
+							const ret = n < end ? { value: n, done: false } : { done: true };
+							n+= step;
+							return ret;
 						}
-					} else {
-						for (let n = start; n >= end; n+= step) {
-							yield n;
-						}
-					}
+					});
 				} else {
-					if (step > 0) {
-						for (let n = start; n < end; n+= step) {
-							yield n;
+					let n = start;
+
+					return Iterator.from({
+						next() {
+							const ret = n > end ? { value: n, done: false } : { done: true };
+							n+= step;
+							return ret;
 						}
-					} else {
-						for (let n = start; n > end; n+= step) {
-							yield n;
-						}
-					}
+					});
 				}
 			}
-		};
-	}
+		}
+	};
+}
 
-	if (! (Iterator.prototype[Symbol.toStringTag])) {
-		Iterator.prototype[Symbol.toStringTag] = 'Iterator';
-	}
+if (! (IteratorPrototype[Symbol.toStringTag])) {
+	IteratorPrototype[Symbol.toStringTag] = 'Iterator';
+}
 
-	if (! (Iterator.prototype.take instanceof Function)) {
-		Iterator.prototype.take = function* take(limit) {
-			let n = 0;
+if (! (IteratorPrototype.take instanceof Function)) {
+	IteratorPrototype.take = function take(limit) {
+		let n = 0;
+		const iter = this;
 
-			for (const item of this) {
-				if (++n > limit) {
-					break;
-				} else {
-					yield item;
-				}
-			}
-		};
-	}
-
-	if (! (Iterator.prototype.drop instanceof Function)) {
-		Iterator.prototype.drop = function* drop(limit) {
-			let n = 0;
-			for (const item of this) {
+		return Iterator.from({
+			next() {
 				if (n++ >= limit) {
-					yield item;
+					return { done: true };
+				} else {
+					return iter.next();
 				}
 			}
-		};
-	}
+		});
+	};
+}
 
-	if (! (Iterator.prototype.toArray instanceof Function)) {
-		Iterator.prototype.toArray = function toArray() {
-			return Array.from(this);
-		};
-	}
+if (! (IteratorPrototype.drop instanceof Function)) {
+	IteratorPrototype.drop = function drop(limit) {
+		for (let n = 0; n < limit; n++) {
+			const { done } = this.next();
 
-	if (! (Iterator.prototype.forEach instanceof Function)) {
-		Iterator.prototype.forEach = function forEach(callback) {
-			for (const item of this) {
-				callback(item);
+			if (done) {
+				break;
 			}
+		}
+
+		return this;
+	};
+}
+
+if (! (IteratorPrototype.toArray instanceof Function)) {
+	IteratorPrototype.toArray = function toArray() {
+		return Array.from(this);
+	};
+}
+
+if (! (IteratorPrototype.forEach instanceof Function)) {
+	IteratorPrototype.forEach = function forEach(callback) {
+		for (const item of this) {
+			callback.call(this, item);
+		}
+	};
+}
+
+if (! (IteratorPrototype.flatMap instanceof Function)) {
+	IteratorPrototype.flatMap = function flatMap(mapper) {
+		const iter = this;
+		let cur = this.next();
+
+		const getSubIter = ({ value, done = true } = {}) => {
+			return done
+				? Iterator.from({
+					next() {
+						return { done: true };
+					}
+				})
+				: Iterator.from(mapper.call(iter, value));
 		};
-	}
 
-	if (! (Iterator.prototype.map instanceof Function)) {
-		Iterator.prototype.map = function* map(callback) {
-			for (const item of this) {
-				yield callback(item);
-			}
-		};
-	}
+		let sub = getSubIter(cur);
 
-	if (! (Iterator.prototype.reduce instanceof Function)) {
-		Iterator.prototype.reduce = function reduce(callback, initialValue) {
-			let current = typeof initialValue === 'undefined' ? this.next().value : initialValue;
+		return Iterator.from({
+			next() {
+				const { value, done = true } = sub.next();
 
-			for (const item of this) {
-				current = callback(current, item);
-			}
-
-			return current;
-		};
-	}
-
-	if (! (Iterator.prototype.filter instanceof Function)) {
-		Iterator.prototype.filter = function* filter(callback) {
-			for (const item of this) {
-				if (callback(item)) {
-					yield item;
+				if (cur.done && done) {
+					return { done: true };
+				} else if (! done) {
+					return { value, done };
+				} else if (! cur.done) {
+					cur = iter.next();
+					sub = getSubIter(cur);
+					return sub.next();
+				} else {
+					return { done: true };
 				}
 			}
-		};
-	}
+		});
 
-	if (! (Iterator.prototype.some instanceof Function)) {
-		Iterator.prototype.some = function some(callback) {
-			let retVal = false;
-			for (const item of this) {
-				if (callback(item)) {
-					retVal = true;
-					break;
+	};
+}
+
+if (! (IteratorPrototype.map instanceof Function)) {
+	IteratorPrototype.map = function map(callback) {
+		const iter = this;
+
+		return Iterator.from({
+			next() {
+				const { done, value } = iter.next();
+
+				if (done) {
+					return { done };
+				} else {
+					return { value: callback.call(iter, value), done: false };
 				}
 			}
+		});
+	};
+}
 
-			return retVal;
-		};
-	}
+if (! (IteratorPrototype.reduce instanceof Function)) {
+	IteratorPrototype.reduce = function reduce(callback, initialValue) {
+		let current = typeof initialValue === 'undefined' ? this.next().value : initialValue;
 
-	if (! (Iterator.prototype.every instanceof Function)) {
-		Iterator.prototype.every = function every(callback) {
-			let retVal = true;
-			for (const item of this) {
-				if (! callback(item)) {
-					retVal = false;
-					break;
+		for (const item of this) {
+			current = callback.call(this, current, item);
+		}
+
+		return current;
+	};
+}
+
+if (! (IteratorPrototype.filter instanceof Function)) {
+	IteratorPrototype.filter = function filter(callback) {
+		const iter = this;
+		let done = false;
+		let value = undefined;
+
+		return Iterator.from({
+			next() {
+				while (! done) {
+					const cur = iter.next();
+					done = cur.done;
+
+					if (done) {
+						break;
+					} else if (callback.call(iter, cur.value)) {
+						value = cur.value;
+						break;
+					}
 				}
-			}
 
-			return retVal;
-		};
-	}
-
-	if (! (Iterator.prototype.find instanceof Function)) {
-		Iterator.prototype.find = function find(callback) {
-			for (const item of this) {
-				if (callback(item)) {
-					return item;
-				}
+				return { done, value };
 			}
-		};
-	}
+		});
+	};
+}
 
-	if (! (Iterator.prototype.indexed instanceof Function)) {
-		Iterator.prototype.indexed = function* indexed() {
-			let n = 0;
-			for (const item of this) {
-				yield [n++, item];
+if (! (IteratorPrototype.some instanceof Function)) {
+	IteratorPrototype.some = function some(callback) {
+		let retVal = false;
+		for (const item of this) {
+			if (callback.call(this, item)) {
+				retVal = true;
+				break;
 			}
-		};
-	}
-})();
+		}
+
+		return retVal;
+	};
+}
+
+if (! (IteratorPrototype.every instanceof Function)) {
+	IteratorPrototype.every = function every(callback) {
+		let retVal = true;
+		for (const item of this) {
+			if (! callback.call(this, item)) {
+				retVal = false;
+				break;
+			}
+		}
+
+		return retVal;
+	};
+}
+
+if (! (IteratorPrototype.find instanceof Function)) {
+	IteratorPrototype.find = function find(callback) {
+		for (const item of this) {
+			if (callback.call(this, item)) {
+				return item;
+			}
+		}
+	};
+}
+
+if (! (IteratorPrototype.indexed instanceof Function)) {
+	IteratorPrototype.indexed = function indexed() {
+		let n = 0;
+		return this.map(item => [n++, item]);
+	};
+}
+
+if (! (Iterator.from instanceof Function)) {
+	Iterator.from = function from(obj) {
+		if (typeof obj !== 'object' || obj === null) {
+			throw new TypeError('Not an object.');
+		} else if (obj.next instanceof Function) {
+			const iter = Object.create(IteratorPrototype, {
+				'next': {
+					enumerable: true,
+					configurable: false,
+					writable: false,
+					value: (...args) => obj.next(...args),
+				},
+			});
+
+			return iter;
+		} else if(obj[Symbol.iterator] instanceof Function) {
+			return Iterator.from(obj[Symbol.iterator]());
+		}
+	};
+}
+
+if (! supported) {
+	globalThis.Iterator = Iterator;
+}

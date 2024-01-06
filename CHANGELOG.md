@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.3.0] - 2024-01-06
+
+### Added
+- Implement `Iterator.from`
+
+### Changed
+- Use iterators instead of generators iterator helper methods
+- Update Set to conform to spec changes
+
 ## [v0.2.9] - 2023-12-10
 
 ### Fixed
