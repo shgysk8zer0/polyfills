@@ -15,7 +15,7 @@ for features including `AbortSignal`, `CookieStore`, `Sanitizer`, and many more.
 
 [![npm](https://img.shields.io/npm/v/@shgysk8zer0/polyfills)](https://www.npmjs.com/package/@shgysk8zer0/polyfills)
 <!-- ![node-current](https://img.shields.io/node/v/@shgysk8zer0/polyfills) -->
-![npm bundle size gzipped](https://img.shields.io/bundlephobia/minzip/@shgysk8zer0/polyfills)
+![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40shgysk8zer0%2Fpolyfills)
 [![npm](https://img.shields.io/npm/dw/@shgysk8zer0/polyfills?logo=npm)](https://www.npmjs.com/package/@shgysk8zer0/polyfills)
 
 [![GitHub followers](https://img.shields.io/github/followers/shgysk8zer0.svg?style=social)](https://github.com/shgysk8zer0)
