@@ -16,11 +16,20 @@
 		<script src="https://unpkg.com/@shgysk8zer0/kazoo@0.0.16/harden.js" integrity="sha384-55L/wO9o0uIVTeubRIDQB4bewfNqyxrj4OXuxlW24NMEk+ioZwMHVw/tFV78mM+k" crossorigin="anonymous" referrerpolicy="no-referrer" defer=""></script>
 		<link rel="icon" href="./favicon.svg" type="image/svg+xml" sizes="any" />
 		<link rel="stylesheet" href="./css/index.css" referrerpolicy="no-referrer" />
+		<link rel="stylesheet" href="../popover.css" referrerpolicy="no-referrer" />
 	</head>
 	<body style="background: pink;">
 		<header id="header">Header</header>
+		<nav id="nav">
+			<button type="button" popovertarget="popover-auto" accesskey="a">Toggle [A]uto Popover</button>
+			<button type="button" popovertarget="popover-manual" accesskey="t">[T]oggle Manual Popover</button>
+			<button type="button" popovertarget="popover-manual" popovertargetaction="show" accesskey="s">[S]how Manual Popover</button>
+			<button type="button" popovertarget="popover-manual" popovertargetaction="hide" accesskey="h">[H]ide Manual Popover</button>
+		</nav>
 		<main id="main">Main</main>
 		<aside id="sidebar">Sidebar</aside>
 		<footer id="footer">Footer</footer>
+		<div popover="auto" id="popover-auto">This is an <code>auto</code> popover</div>
+		<div popover="manual" id="popover-manual">This is a <code>manual</code> popover</div>
 	</body>
 </html>

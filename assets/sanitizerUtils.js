@@ -1,5 +1,5 @@
 /**
- * @copyright 2023 Chris Zuber <admin@kernvalley.us>
+ * @copyright 2023-2024 Chris Zuber <admin@kernvalley.us>
  */
 import { SanitizerConfig as defaultConfig } from './SanitizerConfigW3C.js';
 import { createPolicy } from './trust.js';
@@ -9,16 +9,21 @@ import { urls } from './attributes.js';
 export const supported = () => 'Sanitizer' in globalThis;
 export const nativeSupport = supported();
 
+const isDataAttr = name => name.length > 5 && name.substring(0, 5) === 'data-';
+
 export const setHTML = function setHTML(el, input, opts = defaultConfig) {
 	const doc = safeParseHTML(input, opts);
 	el.replaceChildren(documentToFragment(doc));
 };
 
-const allowProtocols = ['https:'];
+const allowProtocols = ['https:', 'blob:'];
+
+const HTML_NS = 'http://www.w3.org/1999/xhtml';
 
 if (! allowProtocols.includes(location.protocol)) {
 	allowProtocols.push(location.protocol);
 }
+
 const policyName = 'sanitizer-raw#html';
 const getPolicy = callOnce(() => createPolicy(policyName, { createHTML: input => input }));
 const createHTML = input => getPolicy().createHTML(input);
@@ -28,6 +33,12 @@ export function documentToFragment(doc) {
 	const clone = doc.cloneNode(true);
 	frag.append(...clone.head.childNodes, ...clone.body.childNodes);
 	return frag;
+}
+
+export function addNamesapces(list) {
+	const mapped = list.map(allow => typeof allow === 'string' ? ({ name: allow, namespace: HTML_NS }) : allow);
+
+	return Object.groupBy(mapped, ({ namespace = HTML_NS }) => namespace);
 }
 
 /**
@@ -170,8 +181,10 @@ export function sanitizeNode(root, opts = defaultConfig) {
 									}
 								} else if (isObject(allowAttributes)) {
 									if (
-										! (name in allowAttributes
-										&& ['*', tag].some(sel => allowAttributes[name].includes(sel)))
+										! ((
+											name in allowAttributes
+											&& ['*', tag].some(sel => allowAttributes[name].includes(sel))
+										) || isDataAttr(name))
 									) {
 										node.removeAttributeNode(attr);
 									}

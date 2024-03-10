@@ -262,6 +262,19 @@ if (! (Array.prototype.with instanceof Function)) {
 	};
 }
 
+if (! (Array.isTemplateObject instanceof Function)) {
+	Array.isTemplateObject = function(target) {
+		if (! (
+			Array.isArray(target) && Array.isArray(target.raw)
+			&& Object.isFrozen(target) && Object.isFrozen(target.raw)
+		)) {
+			return false;
+		} else {
+			return target.length !== 0 && target.length === target.raw.length;
+		}
+	};
+}
+
 /**
  * @see https://github.com/tc39/proposal-arraybuffer-base64
  */

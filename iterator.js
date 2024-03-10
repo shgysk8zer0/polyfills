@@ -287,6 +287,45 @@ if (! (IteratorPrototype.indexed instanceof Function)) {
 	};
 }
 
+if (! (IteratorPrototype.chunks instanceof Function)) {
+	IteratorPrototype.chunks = function(size) {
+		if (! Number.isSafeInteger(size) || size < 1) {
+			throw new TypeError('Size must be a positive integer.');
+		} else {
+			const iter = this;
+			let done = false;
+
+			return Iterator.from({
+				next() {
+					if (done) {
+						return { done };
+					} else {
+						const items = [];
+						let i = 0;
+
+						while(i++ < size && ! done) {
+							const next = iter.next();
+
+							if (next.done) {
+								done = true;
+
+								if (typeof next.value !== 'undefined') {
+									items.push(next.value);
+								}
+								break;
+							} else {
+								items.push(next.value);
+							}
+						}
+
+						return { value: items, done: false };
+					}
+				}
+			});
+		}
+	};
+}
+
 if (! (Iterator.from instanceof Function)) {
 	Iterator.from = function from(obj) {
 		if (typeof obj !== 'object' || obj === null) {
