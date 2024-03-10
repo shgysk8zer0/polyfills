@@ -36,6 +36,7 @@
       "ElementInternals": "readonly",
       "Sanitizer": "readonly",
       "Record": "readonly",
-      "Tuple": "readonly"
+      "Tuple": "readonly",
+      "ToggleEvent": "readonly"
     }
 }

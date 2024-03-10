@@ -4,6 +4,16 @@
 	box-sizing: border-box;
 }
 
+body {
+	background-color: #ffffff;
+	color: #070707;
+
+	@media (prefers-color-scheme: dark) {
+		background-color: #1c1b22;
+		color: #fbfbfe;
+	}
+}
+
 * {
 	box-sizing: inherit;
 }

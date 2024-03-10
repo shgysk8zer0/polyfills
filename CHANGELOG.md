@@ -6,11 +6,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.3.2] - 2024-03-09
+
+### Added
+- WIP implementation of the [Popover API](https://developer.mozilla.org/en-US/docs/Web/API/Popover_API)
+- Add `Array.isTemplateObject()`
+- Add `Iterator.prototype.chunks()`
+
+### Fixed
+- Allow `blob:` URIs and `data-` attributes in sanitizer
+
 ## [v0.3.1] - 2024-01-31
 
 ### Added
 - Add `Uint8Array` base64 + hex proposed methods
 - Add `Math.sum()`
+
+### Fixed
+- Allow `data-*` attributes in sanitizer config
 
 ## [v0.3.0] - 2024-01-06
 
