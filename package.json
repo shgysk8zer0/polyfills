@@ -1,6 +1,6 @@
 {
   "name": "@shgysk8zer0/polyfills",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "private": false,
   "type": "module",
   "description": "A collection of JavaScript polyfills",
@@ -77,6 +77,6 @@
     "http-server": "^14.1.1"
   },
   "dependencies": {
-    "@aegisjsproject/sanitizer": "^0.0.3"
+    "@aegisjsproject/sanitizer": "^0.0.4"
   }
 }
