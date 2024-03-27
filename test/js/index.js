@@ -1,4 +1,13 @@
 import '../../all.js';
+import { sanitizer } from '@aegisjsproject/sanitizer/config/base.js';
+
+trustedTypes.createPolicy('default', {
+	createHTML(input) {
+		const el = document.createElement('div');
+		el.setHTML(input, { sanitizer });
+		return el.innerHTML;
+	}
+});
 
 class TestEl extends HTMLElement {
 	#internals;
@@ -8,14 +17,11 @@ class TestEl extends HTMLElement {
 		super();
 		this.#shadow = this.attachShadow({ mode: 'open' });
 		this.#internals = this.attachInternals();
-		const sanitizer = new Sanitizer({
-			allowElements: ['div', 'h2', 'p', 'slot', 'html', 'body'],
-		});
 
 		const tmp = Document.parseHTML(`<div id="container">
 			<h2 id="title">Lorem Ipsum</h2>
 			<p id="content"><slot name="content">Eum doloribus esse voluptate. Iste neque eum itaque harum non qui cumque id. Laborum officiis voluptatem at sed et repellendus molestiae et. Cum dolor doloribus reiciendis. Quisquam veniam cum officia ex reprehenderit voluptatem sequi id.</slot></p>
-		</div>`, { sanitizer });
+		</div>`);
 
 		new CSSStyleSheet({ media: '(min-width: 800px)' }).replace(`
 			:host {

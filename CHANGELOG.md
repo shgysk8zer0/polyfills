@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.3.3] - 2024-03-26
+
+### Changed
+- Switch to using `@aegisjsproject/sanitizer` instead of own implementation
+- Now requires `aegis-sanitizer#html` policy instead of `sanitizer-raw#html`
+
+### Removed
+- Remove all scripts relating to Sanitizer API
+- Completely remove ancient implementation of `Sanitizer` in `deprecated/`
+
 ## [v0.3.2] - 2024-03-09
 
 ### Added

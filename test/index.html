@@ -6,11 +6,24 @@
 		<meta name="color-scheme" content="light dark" />
 		<meta http-equiv="Content-Security-Policy"
 			content="default-src 'self';
-			script-src 'self' https://unpkg.com/@shgysk8zer0/;
+			script-src 'self' https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@kernvalley/ https://unpkg.com/@aegisjsproject/ 'sha384-4onIx2LttAbxVKpHzdtFQkKL7YCz0wVd3pqKyQjc5LGQt7MEZXO/d79Mc5Fwp8az';
 			style-src 'self' blob:;
-			trusted-types sanitizer-raw#html empty#html empty#script;
+			trusted-types aegis-sanitizer#html empty#html empty#script default;
 			require-trusted-types-for 'script';"
 		/>
+		<script type="importmap" integrity="sha384-4onIx2LttAbxVKpHzdtFQkKL7YCz0wVd3pqKyQjc5LGQt7MEZXO/d79Mc5Fwp8az">
+			{
+				"imports": {
+					"@shgysk8zer0/polyfills": "../all.js",
+					"@shgysk8zer0/polyfills/": "../",
+					"@aegisjsproject/sanitizer": "../node_modules/@aegisjsproject/sanitizer/sanitizer.js",
+					"@aegisjsproject/sanitizer/": "../node_modules/@aegisjsproject/sanitizer/",
+					"@shgysk8zer0/": "https://unpkg.com/@shgysk8zer0/",
+					"@kernvalley/": "https://unpkg.com/@kernvalley/",
+					"@aegisjsproject/": "https://unpkg.com/@aegisjsproject/"
+				}
+			}
+		</script>
 		<title>JavaScript Polyfills Test</title>
 		<script type="module" src="./js/index.js" referrerpolicy="no-referrer"></script>
 		<script src="https://unpkg.com/@shgysk8zer0/kazoo@0.0.16/harden.js" integrity="sha384-55L/wO9o0uIVTeubRIDQB4bewfNqyxrj4OXuxlW24NMEk+ioZwMHVw/tFV78mM+k" crossorigin="anonymous" referrerpolicy="no-referrer" defer=""></script>
