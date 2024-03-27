@@ -1,5 +1,5 @@
 /**
- * @copyright 2023 Chris Zuber <admin@kernvalley.us>
+ * @copyright 2023-2024 Chris Zuber <admin@kernvalley.us>
  */
 import './globalThis.js';
 import './deprefixer.js';
@@ -24,7 +24,6 @@ import './crypto.js';
 import './cookieStore.js';
 import './animation.js';
 import './trustedTypes.js';
-import './deprecated/sanitizer.js';
 import './Document.js';
 import './ShadowRoot.js';
 import './CSSStyleSheet.js';

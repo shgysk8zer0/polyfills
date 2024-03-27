@@ -1,7 +1,6 @@
 import { aria } from './aom.js';
-import { overwriteMethod, polyfillGetterSetter } from './utils.js';
-import { SanitizerConfig as defaultConfig } from './assets/SanitizerConfigW3C.js';
-import { setHTML as safeSetHTML, convertToSanitizerConfig } from './assets/sanitizerUtils.js';
+import { polyfillGetterSetter } from './utils.js';
+import './sanitizer.js';
 
 function handlePopover({ currentTarget }) {
 	switch(currentTarget.popoverTargetAction) {
@@ -241,23 +240,6 @@ if (! (HTMLImageElement.prototype.decode instanceof Function)) {
 			});
 		}
 	};
-}
-
-if (! (Element.prototype.setHTML instanceof Function)) {
-	Element.prototype.setHTML = function setHTML(input, opts = defaultConfig) {
-		safeSetHTML(this, input, opts);
-	};
-} else {
-	overwriteMethod(Element.prototype, 'setHTML', function(orig) {
-		return function setHTML(input, opts = {}) {
-			if (! (opts.sanitizer instanceof Sanitizer)) {
-				const sanitizer = new Sanitizer(convertToSanitizerConfig(opts));
-				orig.call(this, input, { sanitizer });
-			} else {
-				orig.call(this, input, opts);
-			}
-		};
-	});
 }
 
 if (! HTMLTemplateElement.prototype.hasOwnProperty('shadowRootMode')) {
