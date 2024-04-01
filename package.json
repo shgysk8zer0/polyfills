@@ -77,6 +77,6 @@
     "http-server": "^14.1.1"
   },
   "dependencies": {
-    "@aegisjsproject/sanitizer": "^0.0.4"
+    "@aegisjsproject/sanitizer": "^0.0.7"
   }
 }
