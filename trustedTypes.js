@@ -1,3 +1,2 @@
-import { polyfill, trustPolicies } from './assets/TrustedTypes.js';
-const polyfilled = polyfill();
-export { trustPolicies, polyfilled };
+import '@aegisjsproject/trusted-types/trusted-types.js';
+import '@aegisjsproject/trusted-types/harden.js';

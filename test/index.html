@@ -6,18 +6,19 @@
 		<meta name="color-scheme" content="light dark" />
 		<meta http-equiv="Content-Security-Policy"
 			content="default-src 'self';
-			script-src 'self' https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@kernvalley/ https://unpkg.com/@aegisjsproject/ 'sha384-4onIx2LttAbxVKpHzdtFQkKL7YCz0wVd3pqKyQjc5LGQt7MEZXO/d79Mc5Fwp8az';
+			script-src 'self' https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@kernvalley/ https://unpkg.com/@aegisjsproject/ 'sha384-nur5DuRpLezQ2xW2gTMbC0p7g4iZdqHmf0A+qJspbS1SW8OPH2tV/yKunVy3OhKs';
 			style-src 'self' blob:;
-			trusted-types aegis-sanitizer#html empty#html empty#script default;
+			trusted-types aegis-sanitizer#html default;
 			require-trusted-types-for 'script';"
 		/>
-		<script type="importmap" integrity="sha384-4onIx2LttAbxVKpHzdtFQkKL7YCz0wVd3pqKyQjc5LGQt7MEZXO/d79Mc5Fwp8az">
+		<script type="importmap" integrity="sha384-nur5DuRpLezQ2xW2gTMbC0p7g4iZdqHmf0A+qJspbS1SW8OPH2tV/yKunVy3OhKs">
 			{
 				"imports": {
 					"@shgysk8zer0/polyfills": "../all.js",
 					"@shgysk8zer0/polyfills/": "../",
 					"@aegisjsproject/sanitizer": "../node_modules/@aegisjsproject/sanitizer/sanitizer.js",
 					"@aegisjsproject/sanitizer/": "../node_modules/@aegisjsproject/sanitizer/",
+					"@aegisjsproject/trusted-types/": "../node_modules/trusted-types/",
 					"@shgysk8zer0/": "https://unpkg.com/@shgysk8zer0/",
 					"@kernvalley/": "https://unpkg.com/@kernvalley/",
 					"@aegisjsproject/": "https://unpkg.com/@aegisjsproject/"
@@ -26,7 +27,6 @@
 		</script>
 		<title>JavaScript Polyfills Test</title>
 		<script type="module" src="./js/index.js" referrerpolicy="no-referrer"></script>
-		<script src="https://unpkg.com/@shgysk8zer0/kazoo@0.0.16/harden.js" integrity="sha384-55L/wO9o0uIVTeubRIDQB4bewfNqyxrj4OXuxlW24NMEk+ioZwMHVw/tFV78mM+k" crossorigin="anonymous" referrerpolicy="no-referrer" defer=""></script>
 		<link rel="icon" href="./favicon.svg" type="image/svg+xml" sizes="any" />
 		<link rel="stylesheet" href="./css/index.css" referrerpolicy="no-referrer" />
 		<link rel="stylesheet" href="../popover.css" referrerpolicy="no-referrer" />
