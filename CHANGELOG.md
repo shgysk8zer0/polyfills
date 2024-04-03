@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.3.8] - 2024-04-02
+
+### Fixed
+- Load correct polyfill for Sanitizer API
+
 ## [v0.3.7] - 2024-04-01
 
 ### Changed

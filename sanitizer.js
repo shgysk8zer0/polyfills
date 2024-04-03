@@ -1,1 +1,1 @@
-import '@aegisjsproject/sanitizer/sanitizer.js';
+import '@aegisjsproject/sanitizer/polyfill.js';
