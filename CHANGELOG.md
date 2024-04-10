@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.3.10] - 2024-04-10
+
+### Added
+- Add `Math.sumPrecise()`
+
+### Changed
+- Update `@aegisjsproject/sanitizer`
+
+### Deprecated
+- Deprecate old `Math.sum` method (now `Math.sumPrecise`)
+
 ## [v0.3.9] - 2024-04-03
 
 ### Changed
