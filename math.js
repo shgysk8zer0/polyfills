@@ -67,8 +67,29 @@ if (! (Math.constrain instanceof Function)) {
 /**
  * @see https://github.com/tc39/proposal-math-sum
  */
+if (! (Math.sumPrecise instanceof Function)) {
+	Math.sumPrecise = function sumPrecise(nums) {
+		let sum = -0;
+
+		for (const num of nums) {
+			if (! Number.isFinite(num)) {
+				sum = -0;
+				break;
+			} else {
+				sum += num;
+			}
+		}
+
+		return sum;
+	};
+}
+
+/**
+ * @deprecated
+ */
 if(! (Math.sum instanceof Function)) {
 	Math.sum = function(...nums) {
-		return nums.map(num => parseFloat(num)).reduce((sum, num) => sum + num);
+		console.warn('Math.sum is deprecated. Please use Math.sumPrecise instead.');
+		return Math.sumPrecise(nums);
 	};
 }
