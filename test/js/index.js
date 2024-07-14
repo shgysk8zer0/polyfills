@@ -18,11 +18,6 @@ class TestEl extends HTMLElement {
 		this.#shadow = this.attachShadow({ mode: 'open' });
 		this.#internals = this.attachInternals();
 
-		const tmp = Document.parseHTML(`<div id="container">
-			<h2 id="title">Lorem Ipsum</h2>
-			<p id="content"><slot name="content">Eum doloribus esse voluptate. Iste neque eum itaque harum non qui cumque id. Laborum officiis voluptatem at sed et repellendus molestiae et. Cum dolor doloribus reiciendis. Quisquam veniam cum officia ex reprehenderit voluptatem sequi id.</slot></p>
-		</div>`);
-
 		new CSSStyleSheet({ media: '(min-width: 800px)' }).replace(`
 			:host {
 				display: inline-block;
@@ -47,7 +42,10 @@ class TestEl extends HTMLElement {
 			}
 		`).then(sheet => {
 			this.#shadow.adoptedStyleSheets = [sheet];
-			this.#shadow.append(...tmp.body.children);
+			this.#shadow.setHTML(`<div id="container">
+				<h2 id="title">Lorem Ipsum</h2>
+				<p id="content"><slot name="content">Eum doloribus esse voluptate. Iste neque eum itaque harum non qui cumque id. Laborum officiis voluptatem at sed et repellendus molestiae et. Cum dolor doloribus reiciendis. Quisquam veniam cum officia ex reprehenderit voluptatem sequi id.</slot></p>
+			</div>`);
 		});
 	}
 }

@@ -15,3 +15,7 @@ polyfillMethod(Response, 'redirect', (url, status = 302) => {
 		headers: new Headers({ Location: url }),
 	});
 });
+
+polyfillMethod(Response.prototype, 'bytes', async function() {
+	return new Uint8Array(await this.arrayBuffer());
+});

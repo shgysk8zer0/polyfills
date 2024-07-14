@@ -1,6 +1,9 @@
 import { aria } from './aom.js';
-import { polyfillGetterSetter } from './utils.js';
+import { polyfillGetterSetter, polyfillMethod } from './utils.js';
+import { setHTMLUnsafe } from './methods/dom.js';
 import './sanitizer.js';
+
+polyfillMethod(Element.prototype, 'setHTMLUnsafe', setHTMLUnsafe);
 
 function handlePopover({ currentTarget }) {
 	switch(currentTarget.popoverTargetAction) {
