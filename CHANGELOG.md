@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.3.11] - 2024-07-14
+
+### Added
+- Add polyfills for `setHTMLUnsafe` & `parseHTMLUnsafe` methods
+- Add polyfills for `bytes` method in `Blob`, `Request`, and `Response`
+
 ## [v0.3.10] - 2024-04-10
 
 ### Added

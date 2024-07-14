@@ -4,6 +4,7 @@ logs
 *.min.js
 *.min.js.map
 .bak
+.DS_STORE
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
