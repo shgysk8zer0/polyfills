@@ -67,4 +67,25 @@ if ('Promise' in globalThis) {
 			return def;
 		};
 	}
+
+	if (! (Promise.fromEntries instanceof Function)) {
+		Promise.fromEntries = async function fromEntries(entries) {
+			const keys = [];
+			const values = [];
+
+			for (const [key, value] of entries) {
+				keys.push(key);
+				values.push(value);
+			}
+
+			return await Promise.all(values)
+				.then(values => Object.fromEntries(values.map((value, i) => [keys[i], value])));
+		};
+	}
+
+	if (!(Promise.ownProperties instanceof Function)) {
+		Promise.ownProperties = async function ownProperties(obj) {
+			return await Promise.fromEntries(Object.entries(obj));
+		};
+	}
 }

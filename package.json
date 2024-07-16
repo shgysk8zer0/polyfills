@@ -1,6 +1,6 @@
 {
   "name": "@shgysk8zer0/polyfills",
-  "version": "0.3.11",
+  "version": "0.3.12",
   "private": false,
   "type": "module",
   "description": "A collection of JavaScript polyfills",
@@ -78,6 +78,7 @@
   },
   "dependencies": {
     "@aegisjsproject/sanitizer": "^0.1.0",
-    "@aegisjsproject/trusted-types": "^1.0.1"
+    "@aegisjsproject/trusted-types": "^1.0.1",
+    "string-dedent": "^3.0.1"
   }
 }

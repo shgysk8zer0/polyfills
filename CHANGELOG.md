@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.3.12] - 2024-07-15
+
+### Added
+- Add `String.dedent` via [`string-dedent`](https://www.npmjs.com/package/string-dedent)
+- Add `Promise.ownProperties` and `Promise.fromEntries`
+- Add `Symbol.isWellKnown` and `Symbol.isRegistered`
+- Add missing `URL.parse`
+
 ## [v0.3.11] - 2024-07-14
 
 ### Added
