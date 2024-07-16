@@ -361,7 +361,8 @@ if (! (Uint8Array.fromBase64 instanceof Function)) {
 					// Already checked for valid `lastChunkHandling`
 				}
 			} else {
-				return new TextEncoder().encode(atob(str));
+				// return new TextEncoder().encode(atob(str));
+				return Uint8Array.from(atob(str), char => char.charCodeAt(0));
 			}
 		} else {
 			return Uint8Array.fromBase64(
