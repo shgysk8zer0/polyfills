@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.3.14] - 2024-07-16
+
+### Fixed
+- Fix bad decoding in `Uint8Array.fromBase64`
+
 ## [v0.3.13] - 2024-07-16
 
 ### Fixed
