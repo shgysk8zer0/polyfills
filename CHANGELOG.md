@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.3.13] - 2024-07-16
+
+### Fixed
+- Fixed range error converting large `Uint8Array`s to base64
+
 ## [v0.3.12] - 2024-07-15
 
 ### Added
