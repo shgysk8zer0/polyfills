@@ -2,6 +2,7 @@
  * @copyright 2023-2024 Chris Zuber <admin@kernvalley.us>
  */
 import './globalThis.js';
+import './string.js';
 import './deprefixer.js';
 import './object.js';
 import './map.js';
