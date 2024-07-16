@@ -280,7 +280,10 @@ if (! (Array.isTemplateObject instanceof Function)) {
  */
 if (! (Uint8Array.prototype.toHex instanceof Function)) {
 	Uint8Array.prototype.toHex = function toHex() {
-		return Array.from(this).map(n => n.toString(16).padStart('0', 2)).join('');
+		return Array.from(
+			this,
+			n => n.toString(16).padStart('0', 2)
+		).join('');
 	};
 }
 
@@ -288,7 +291,16 @@ if (! (Uint8Array.prototype.toBase64 instanceof Function)) {
 	Uint8Array.prototype.toBase64 = function toBase64({ alphabet = 'base64' } = {}) {
 		if (alphabet === 'base64') {
 			// @todo Figure out encoding specifics
-			return btoa(String.fromCodePoint(...this));
+			//return btoa(String.fromCodePoint(...this));
+			const chunkSize = 0x8000; // 32,768 bytes per chunk
+			let str = '';
+
+			for (let i = 0; i < this.length; i += chunkSize) {
+				const chunk = this.subarray(i, i + chunkSize);
+				str += String.fromCharCode.apply(null, chunk);
+			}
+
+			return btoa(str);
 			// return btoa(new TextDecoder().decode(this));
 		} else if (alphabet === 'base64url') {
 			return this.toBase64({ alphabet: 'base64' }).replaceAll('+', '-').replaceAll('/', '_');
