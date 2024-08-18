@@ -28,6 +28,7 @@
   },
   "scripts": {
     "test": "npm run lint:js && npm run test:node && npm run lint:html",
+    "postinstall": "if [ -f './assets/dedent.cjs' ]; then npm run build; fi",
     "preversion": "npm test && npm run build",
     "prepare": "npm test && npm run build",
     "start": "http-server ${npm_package_config_serve_path} -c-1 --port ${npm_package_config_serve_port} --gzip true --brotli true -a ${npm_package_config_serve_domain} -o /test/",
