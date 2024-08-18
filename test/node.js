@@ -1,4 +1,4 @@
-import '@shgysk8zer0/polyfills';
+import '../node.js';
 
 async function test(toRun) {
 	try {
