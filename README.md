@@ -40,7 +40,7 @@ You can use a CDN to access the library. Add the following script tag to your
 HTML file to load the latest version:
 
 ```html
-<script src="https://unpkg.com/@shgysk8zer0/polyfills/all.min.js"></script>
+<script src="https://unpkg.com/@shgysk8zer0/polyfills[@version]/all.min.js"></script>
 ```
 
 #### With version and SRI
@@ -57,6 +57,10 @@ the following command to install the library:
 ```bash
 npm install @shgysk8zer0/polyfills
 ```
+> [!Note]
+> If using this polyfills package in a node environment, you want to use `node.js` instead
+> of `all.js`. The node version omits polyfills that do not make sense in NodeJS, such as DOM.
+> Simply using `import '@shgysk8zer0/polyfills'` or `require('@shgysk8zer0/polyfills')` should work.
 
 ### Git Submodule
 

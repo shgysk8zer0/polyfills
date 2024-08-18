@@ -1,19 +1,16 @@
 {
   "name": "@shgysk8zer0/polyfills",
-  "version": "0.3.14",
+  "version": "0.4.0",
   "private": false,
   "type": "module",
   "description": "A collection of JavaScript polyfills",
-  "main": "./all.min.js",
-  "module": "./all.js",
-  "unpkg": "./all.js",
+  "main": "./node.min.js",
+  "module": "./node.min.js",
+  "unpkg": "./all.min.js",
   "exports": {
     ".": {
-      "import": "./all.js",
-      "require": "./all.min.js"
-    },
-    "./*": {
-      "import": "./*.js"
+      "import": "./node.min.js",
+      "require": "./node.min.js"
     }
   },
   "config": {
@@ -30,9 +27,9 @@
     }
   },
   "scripts": {
-    "test": "npm run lint:js && npm run lint:html",
-    "preversion": "npm test && npm run build:js",
-    "prepare": "npm run build:js",
+    "test": "npm run lint:js && npm run test:node && npm run lint:html",
+    "preversion": "npm test && npm run build",
+    "prepare": "npm test && npm run build",
     "start": "http-server ${npm_package_config_serve_path} -c-1 --port ${npm_package_config_serve_port} --gzip true --brotli true -a ${npm_package_config_serve_domain} -o /test/",
     "fix": "npm run fix:js",
     "fix:js": "eslint . --fix",
@@ -40,6 +37,7 @@
     "lint:html": "htmlhint \"**/*.html\"",
     "build": "npm run build:js",
     "build:js": "rollup -c rollup.config.js",
+    "test:node": "node test/node.js",
     "create:lock": "npm i --package-lock-only --ignore-scripts --no-audit --no-fund",
     "version:bump": "npm run version:bump:patch",
     "version:bump:patch": "npm version --no-git-tag-version patch && npm run create:lock",
@@ -71,14 +69,15 @@
   },
   "homepage": "https://github.com/shgysk8zer0/polyfills#readme",
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@shgysk8zer0/js-utils": "^1.0.1",
     "htmlhint": "^1.1.4",
-    "http-server": "^14.1.1"
+    "http-server": "^14.1.1",
+    "string-dedent": "^3.0.1"
   },
   "dependencies": {
     "@aegisjsproject/sanitizer": "^0.1.0",
-    "@aegisjsproject/trusted-types": "^1.0.1",
-    "string-dedent": "^3.0.1"
+    "@aegisjsproject/trusted-types": "^1.0.1"
   }
 }

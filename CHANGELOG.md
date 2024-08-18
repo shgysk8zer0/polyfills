@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.4.0] - 2024-08-19
+
+### Added
+- Add node version of polyfills (`node.js` and `node.min.js`)
+- Add some automated tests (`test/node.js`)
+
+### Changed
+- Create local module from `string-dedent` instead of having as a dependency
+- Update `rollup.config.js` to create all needed bundles
+
 ## [v0.3.14] - 2024-07-16
 
 ### Fixed

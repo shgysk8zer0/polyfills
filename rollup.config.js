@@ -1,11 +1,32 @@
-/* eslint-env node */
-import { getConfig } from '@shgysk8zer0/js-utils/rollup';
 import nodeResolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import terser from '@rollup/plugin-terser';
 
-
-export default getConfig('./all.js', {
-	sourcemap: true,
-	minify: true,
-	format: 'iife',
+export default [{
+	input: 'assets/dedent.cjs',
+	plugins: [nodeResolve(), commonjs()],
+	output: [{
+		file: 'assets/dedent.js',
+		format: 'esm',
+	}]
+}, {
+	// Browser bundle
+	input: 'all.js',
 	plugins: [nodeResolve()],
-});
+	output: [{
+		file: 'all.min.js',
+		format: 'iife',
+		plugins: [terser()],
+		sourcemap: true,
+	}],
+}, {
+	// Node.js bundles
+	input: 'node.js',
+	plugins: [nodeResolve()],
+	output: [{
+		file: 'node.min.js',
+		format: 'iife',
+		plugins: [terser()],
+		sourcemap: true,
+	}],
+}];
