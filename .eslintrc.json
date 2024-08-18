@@ -37,6 +37,9 @@
       "Sanitizer": "readonly",
       "Record": "readonly",
       "Tuple": "readonly",
-      "ToggleEvent": "readonly"
+      "ToggleEvent": "readonly",
+      "scheduler": "readonly",
+      "Iterator": "readonly",
+      "AggregateError": "readonly"
     }
 }

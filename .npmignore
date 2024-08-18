@@ -1,6 +1,7 @@
 node_modules/
 test/
 .github/
+assets/dedent.cjs
 .editorconfig
 .eslintignore
 .eslintrc.json

@@ -1,8 +1,13 @@
 # Logs
 logs
 *.log
+*.bak
 *.min.js
 *.min.js.map
+*.cjs
+*.mjs
+!assets/dedent.cjs
+assets/dedent.js
 .bak
 .DS_STORE
 npm-debug.log*

@@ -2,3 +2,4 @@
 /webpack.config.js
 /polyfills/
 *.min.js
+assets/dedent.js
