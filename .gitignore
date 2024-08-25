@@ -8,6 +8,8 @@ logs
 *.mjs
 !assets/dedent.cjs
 assets/dedent.js
+!assets/url-pattern.cjs
+assets/url-pattern.js
 .bak
 .DS_STORE
 npm-debug.log*

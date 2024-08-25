@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.4.1] - 2024-08-24
+
+### Added
+- Add [`URLPattern`](https://developer.mozilla.org/en-US/docs/Web/API/URLPattern) via [`urlpattern-polyfill`](https://github.com/kenchris/urlpattern-polyfill)
+
+### Fixed
+- Fix error in `Uint8Array.prototype.toHex()`
+
 ## [v0.4.0] - 2024-08-19
 
 ### Added
