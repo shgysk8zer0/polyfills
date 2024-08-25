@@ -10,6 +10,13 @@ export default [{
 		format: 'esm',
 	}]
 }, {
+	input: 'assets/url-pattern.cjs',
+	plugins: [nodeResolve(), commonjs()],
+	output: [{
+		file: 'assets/url-pattern.js',
+		format: 'esm',
+	}]
+}, {
 	// Browser bundle
 	input: 'all.js',
 	plugins: [nodeResolve()],

@@ -282,7 +282,7 @@ if (! (Uint8Array.prototype.toHex instanceof Function)) {
 	Uint8Array.prototype.toHex = function toHex() {
 		return Array.from(
 			this,
-			n => n.toString(16).padStart('0', 2)
+			byte => byte.toString(16).padStart(2, '0')
 		).join('');
 	};
 }
