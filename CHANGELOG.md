@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.4.2] - 2024-09-13
+
+### Added
+- Added `scheduler.yield`
+
+### Changed
+- Refactor `scheduler.postTask`
+
 ## [v0.4.1] - 2024-08-24
 
 ### Added

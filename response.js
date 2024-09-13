@@ -10,7 +10,7 @@ polyfillMethod(Response, 'json', (data, { status = 200, statusText = '', headers
 });
 
 polyfillMethod(Response, 'redirect', (url, status = 302) => {
-	return new Response('', {
+	return new Response(null, {
 		status,
 		headers: new Headers({ Location: url }),
 	});
