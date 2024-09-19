@@ -1,3 +1,5 @@
+// eslint-disable-next-line no-redeclare
+/* global Record Tuple */
 if (! (JSON.parseImmutable instanceof Function)) {
 	/* eslint-disable no-inner-declarations */
 	function getImmutable(thing) {
