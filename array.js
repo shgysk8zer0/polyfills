@@ -301,7 +301,6 @@ if (! (Uint8Array.prototype.toBase64 instanceof Function)) {
 			}
 
 			return btoa(str);
-			// return btoa(new TextDecoder().decode(this));
 		} else if (alphabet === 'base64url') {
 			return this.toBase64({ alphabet: 'base64' }).replaceAll('+', '-').replaceAll('/', '_');
 		} else {

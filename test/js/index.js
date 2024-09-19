@@ -1,4 +1,4 @@
-import '../../all.js';
+import '@shgysk8zer0/polyfills';
 import { sanitizer } from '@aegisjsproject/sanitizer/config/base.js';
 
 trustedTypes.createPolicy('default', {
@@ -10,13 +10,13 @@ trustedTypes.createPolicy('default', {
 });
 
 class TestEl extends HTMLElement {
-	#internals;
+	// #internals;
 	#shadow;
 
 	constructor() {
 		super();
 		this.#shadow = this.attachShadow({ mode: 'open' });
-		this.#internals = this.attachInternals();
+		// this.#internals = this.attachInternals();
 
 		new CSSStyleSheet({ media: '(min-width: 800px)' }).replace(`
 			:host {
