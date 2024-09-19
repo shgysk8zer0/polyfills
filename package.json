@@ -11,6 +11,18 @@
     ".": {
       "import": "./node.min.js",
       "require": "./node.min.js"
+    },
+    "./*.js": {
+      "import": "./*.js"
+    },
+    "./*.cjs": {
+      "import": "./*.js"
+    },
+    "./*.mjs": {
+      "import": "./*.js"
+    },
+    "./*": {
+      "import": "./*.js"
     }
   },
   "config": {
@@ -27,7 +39,7 @@
     }
   },
   "scripts": {
-    "test": "npm run lint:js && npm run test:node && npm run lint:html",
+    "test": "npm run lint:js && npm run lint:html && npm run run:tests",
     "postinstall": "if [ -f './assets/dedent.cjs' ]; then npm run build; fi",
     "preversion": "npm test && npm run build",
     "prepare": "npm test && npm run build",
@@ -38,7 +50,7 @@
     "lint:html": "htmlhint \"**/*.html\"",
     "build": "npm run build:js",
     "build:js": "rollup -c rollup.config.js",
-    "test:node": "node test/node.js",
+    "run:tests": "node --test *.test.js",
     "create:lock": "npm i --package-lock-only --ignore-scripts --no-audit --no-fund",
     "version:bump": "npm run version:bump:patch",
     "version:bump:patch": "npm version --no-git-tag-version patch && npm run create:lock",
@@ -72,6 +84,7 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
+    "@shgysk8zer0/eslint-config": "^1.0.1",
     "@shgysk8zer0/js-utils": "^1.0.1",
     "htmlhint": "^1.1.4",
     "http-server": "^14.1.1",

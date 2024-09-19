@@ -8,5 +8,9 @@ assets/dedent.cjs
 .gitattributes
 .gitignore
 .nvmrc
+*.test.js
+*.config.js
 *.tgz
 *.log
+*.bak
+.gitkeep

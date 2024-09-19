@@ -9,6 +9,7 @@ import './math.js';
 import './object.js';
 import './performance.js';
 import './promise.js';
+import './regexp.js';
 import './request.js';
 import './response.js';
 import './scheduler.js';
