@@ -1,6 +1,0 @@
-/node_modules/
-/webpack.config.js
-/polyfills/
-*.min.js
-assets/dedent.js
-assets/url-pattern.js
