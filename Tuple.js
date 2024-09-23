@@ -1,5 +1,5 @@
 if (! (globalThis.Tuple instanceof Function)) {
-	/* eslint-disable no-inner-declarations */
+	 
 
 	/**
 	 * Creates an unfrozen Tuple, such as for `Tuple.of()`

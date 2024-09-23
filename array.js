@@ -219,7 +219,7 @@ if (! (Array.prototype.uniqueBy instanceof Function)) {
 						found.push(key);
 						return true;
 					}
-				} catch(err) {
+				} catch {
 					return false;
 				}
 			});

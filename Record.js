@@ -1,5 +1,5 @@
 if (! (globalThis.Record instanceof Function)) {
-	/* eslint-disable no-inner-declarations */
+	 
 	function Record(obj) {
 		if (new.target === Record) {
 			throw new TypeError('Record is not a constructor');
