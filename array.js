@@ -190,41 +190,32 @@ if (! (Array.prototype.equals instanceof Function)) {
  */
 if (! (Array.prototype.uniqueBy instanceof Function)) {
 	Array.prototype.uniqueBy = function uniqueBy(arg) {
-		if (typeof arg === 'undefined') {
-			return [...new Set(this)];
-		} else if (typeof arg === 'string') {
-			const found = [];
+		switch (typeof arg) {
+			case 'undefined':
+				return [...new Set(this)];
 
-			return this.filter(obj => {
-				const key = obj[arg];
-				if (found.includes(key)) {
-					return false;
-				} else {
-					found.push(key);
-					return true;
-				}
-			});
-		} else if (arg instanceof Function) {
-			const found = [];
+			case 'string':
+			case 'number':
+			case 'symbol':
+				return this.uniqueBy(entry => entry[arg]);
 
-			return this.filter((...args) => {
-				try {
+			case 'function': {
+				const found = new Set(); //Cannot use `WeakSet` in case of primative values
+
+				return this.filter((...args) => {
 					const key = arg.apply(this, args);
 
-					if (typeof key !== 'string') {
-						return false;
-					} else if (found.includes(key)) {
+					if (found.has(key)) {
 						return false;
 					} else {
-						found.push(key);
+						found.add(key);
 						return true;
 					}
-				} catch {
-					return false;
-				}
-			});
-		} else {
-			throw new TypeError('Not a valid argument for uniqueBy');
+				});
+			}
+
+			default:
+				throw new TypeError('Not a valid argument for uniqueBy');
 		}
 	};
 }

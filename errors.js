@@ -19,3 +19,13 @@ if (! (globalThis.reportError instanceof Function)) {
 		globalThis.dispatchEvent(errorToEvent(error));
 	};
 }
+
+
+if (! (Error.isError instanceof Function)) {
+	// @see https://github.com/tc39/proposal-is-error/blob/main/polyfill.js
+	const toStr = Function.bind.call(Function.call, Object.prototype.toString);
+
+	Error.isError = function isError(arg) {
+		return arg instanceof Error || (typeof arg === 'object' && toStr(arg) === '[object Error]' && arg[Symbol.toStringTag] === undefined);
+	};
+}
