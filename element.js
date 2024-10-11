@@ -1,9 +1,31 @@
 import { aria } from './aom.js';
-import { polyfillGetterSetter, polyfillMethod } from './utils.js';
+import { polyfillGetterSetter, polyfillMethod, overwriteMethod } from './utils.js';
 import { setHTMLUnsafe } from './methods/dom.js';
 import './sanitizer.js';
 
 polyfillMethod(Element.prototype, 'setHTMLUnsafe', setHTMLUnsafe);
+
+if ('CustomElementRegistry' in globalThis && ! (CustomElementRegistry.prototype.getName instanceof Function)) {
+	const registry = new Map();
+
+	overwriteMethod(CustomElementRegistry.prototype, 'define', original => {
+		return (tag, proto, opts) => {
+			original.call(customElements, tag,proto, opts);
+			registry.set(proto, typeof opts.extends === 'string' ? opts.extends : tag);
+		};
+	});
+
+	polyfillMethod(CustomElementRegistry.prototype, 'getName', proto => {
+		if (typeof proto === 'function') {
+			return registry.get(proto) ?? null;
+		} else if (typeof proto === 'object' && proto !== null) {
+			// Unnecessary, but just to be sure the same errors are thrown.
+			throw new TypeError('CustomElementRegistry.getName: Argument 1 is not callable.');
+		} else {
+			throw new TypeError('CustomElementRegistry.getName: Argument 1 is not an object.');
+		}
+	});
+}
 
 function handlePopover({ currentTarget }) {
 	switch(currentTarget.popoverTargetAction) {
