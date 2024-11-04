@@ -7,7 +7,8 @@
 		<meta http-equiv="Content-Security-Policy"
 			content="default-src 'self';
 			script-src 'self' https://unpkg.com/@shgysk8zer0/ https://unpkg.com/@kernvalley/ https://unpkg.com/@aegisjsproject/ 'sha384-9n/D9CvSXC9GP4WfbWhInfBfjnMz6voxoTJeH9Zk9Xlwql+HKDX4hgKN69C1pnYI';
-			style-src 'self' blob:;
+			style-src 'self' blob: 'sha384-JP9ZxLWXJJDOBzvjhq2ZxzMFeWcMOz1V4f7bQM4FSiwxnd6HCbM9f4fMefszF+d0';
+			img-src 'self' blob:;
 			connect-src https://events.kernvalley.us/events.json;
 			trusted-types aegis-sanitizer#html default;
 			require-trusted-types-for 'script';"
@@ -32,7 +33,7 @@
 		<link rel="stylesheet" href="./css/index.css" referrerpolicy="no-referrer" />
 		<link rel="stylesheet" href="../popover.css" referrerpolicy="no-referrer" />
 	</head>
-	<body style="background: pink;">
+	<body>
 		<header id="header">Header</header>
 		<nav id="nav">
 			<button type="button" popovertarget="popover-auto" accesskey="a">Toggle [A]uto Popover</button>
@@ -40,10 +41,102 @@
 			<button type="button" popovertarget="popover-manual" popovertargetaction="show" accesskey="s">[S]how Manual Popover</button>
 			<button type="button" popovertarget="popover-manual" popovertargetaction="hide" accesskey="h">[H]ide Manual Popover</button>
 		</nav>
-		<main id="main">Main</main>
+		<main id="main">
+			<adoptable-style>
+				<span slot="css">
+					:popover-open {
+						border: none;
+						padding: 1.3rem;
+						border-radius: 6px;
+					}
+
+					:popover-open::backdrop {
+						background-color: rgba(0, 0, 0, 0.3);
+						backdrop-filter: blur(5px);
+					}
+				</span>
+			</adoptable-style>
+			<test-el>
+				<template shadowrootmode="open" shadowrootserializable="">
+					<adoptable-style media="print">
+						<span slot="css">
+							:host {
+								transform: rotate(180deg);
+							}
+						</span>
+					</adoptable-style>
+					<adoptable-style baseurl="https://unpkg.com/@aegisjsproject/" media="(max-width: 800px)">
+						<span slot="css">
+							:host {
+								font-family: system-ui;
+							}
+
+							#title {
+								color: red;
+							}
+						</span>
+					</adoptable-style>
+					<adoptable-style>
+						<span slot="css">
+							:host {
+								display: inline-block;
+								box-sizing: border-box;
+							}
+
+							#container {
+								display: inline-block;
+								padding: 1.2em;
+								border-radius: 6px;
+								border: 1px solid #dadada;
+								background-color: #232323;
+								color: #fafafa;
+								box-sizing: border-box;
+							}
+
+							#title {
+								text-align: center;
+							}
+
+							#content {
+								font-family: system-ui;
+							}
+						</span>
+					</adoptable-style>
+					<div id="container">
+						<h2 id="title">Lorem Ipsum</h2>
+						<p id="content"><slot name="content">No Content</slot></p>
+					</div>
+				</template>
+				<p slot="content">Eum doloribus esse voluptate. Iste neque eum itaque harum non qui cumque id. Laborum officiis voluptatem at sed et repellendus molestiae et. Cum dolor doloribus reiciendis. Quisquam veniam cum officia ex reprehenderit voluptatem sequi id.</p>
+			</test-el>
+			<div id="test">
+				<template shadowrootmode="open" shadowrootserializable="">
+					<style integrity="sha384-JP9ZxLWXJJDOBzvjhq2ZxzMFeWcMOz1V4f7bQM4FSiwxnd6HCbM9f4fMefszF+d0">
+						::slotted(p) {
+							color: red;
+						}
+					</style>
+					<!-- <adoptable-style>
+						<span slot="css">
+							::slotted(*) {
+								color: red;
+							}
+						</span>
+					</adoptable-style> -->
+					<slot name="content">No Content</slot>
+				</template>
+				<p slot="content">Hello, World!</p>
+			</div>
+		</main>
 		<aside id="sidebar">Sidebar</aside>
 		<footer id="footer">Footer</footer>
-		<div popover="auto" id="popover-auto">This is an <code>auto</code> popover</div>
-		<div popover="manual" id="popover-manual">This is a <code>manual</code> popover</div>
+		<div popover="auto" id="popover-auto">
+			<span>This is an <code>auto</code> popover</span>
+			<button type="button" title="close popover" popovertarget="popover-auto" popovertargetaction="close">x</button>
+		</div>
+		<div popover="manual" id="popover-manual">
+			<span>This is a <code>manual</code> popover</span>
+			<button type="button" title="close popover" popovertarget="popover-manual" popovertargetaction="close" accesskey="x">x</button>
+		</div>
 	</body>
 </html>

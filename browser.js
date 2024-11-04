@@ -41,3 +41,4 @@ import './Record.js';
 import './Tuple.js';
 import './JSON.js';
 import './regexp.js';
+import './close-watcher.js';
