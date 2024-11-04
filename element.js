@@ -1,9 +1,10 @@
 import { aria } from './aom.js';
 import { polyfillGetterSetter, polyfillMethod, overwriteMethod } from './utils.js';
-import { setHTMLUnsafe } from './methods/dom.js';
+import { getHTML, setHTMLUnsafe } from './methods/dom.js';
 import './sanitizer.js';
 
 polyfillMethod(Element.prototype, 'setHTMLUnsafe', setHTMLUnsafe);
+polyfillMethod(Element.prototype, 'getHTML', getHTML);
 
 if ('CustomElementRegistry' in globalThis && ! (CustomElementRegistry.prototype.getName instanceof Function)) {
 	const registry = new Map();
@@ -47,7 +48,7 @@ export function initPopover(target = document.body) {
 		.forEach(el => el.addEventListener('click', handlePopover));
 }
 
-if ((globalThis.ToggleEvent instanceof Function)) {
+if (! (globalThis.ToggleEvent instanceof Function)) {
 	class ToggleEvent extends Event {
 		#newState;
 		#oldState;
@@ -268,25 +269,76 @@ if (! (HTMLImageElement.prototype.decode instanceof Function)) {
 }
 
 if (! HTMLTemplateElement.prototype.hasOwnProperty('shadowRootMode')) {
-	Object.defineProperty(HTMLTemplateElement.prototype, 'shadowRootMode', {
-		get: function() {
+	const attachedShadows = new WeakMap();
+
+	polyfillGetterSetter(HTMLTemplateElement.prototype, 'shadowRootMode', {
+		get() {
 			return this.getAttribute('shadowrootmode');
 		},
-		set: function(val) {
+		set(val) {
 			this.setAttribute('shadowrootmode', val);
+		}
+	});
+
+	polyfillGetterSetter(HTMLTemplateElement.prototype, 'shadowRootDelegatesFocus', {
+		get() {
+			return this.hasAttribute('shadowrootdelegatesfocus');
 		},
-		enumerable: true,
-		configurable: true,
+		set(val) {
+			this.toggleAttribute('shadowrootdelegatesfocus', val);
+		}
+	});
+
+	polyfillGetterSetter(HTMLTemplateElement.prototype, 'shadowRootClonable', {
+		get() {
+			return this.hasAttribute('shadowrootclonable');
+		},
+		set(val) {
+			this.toggleAttribute('shadowrootclonable', val);
+		}
+	});
+
+	polyfillGetterSetter(HTMLTemplateElement.prototype, 'shadowRootSerializable', {
+		get() {
+			return this.hasAttribute('shadowrootserializable');
+		},
+		set(val) {
+			this.toggleAttribute('shadowrootserializable', val);
+		}
 	});
 
 	const attachShadows = (base = document) => {
 		base.querySelectorAll('template[shadowrootmode]').forEach(tmp => {
-			const shadow = tmp.parentElement.attachShadow({ mode: tmp.shadowRootMode });
+			const shadow = tmp.parentElement.attachShadow({
+				mode: tmp.shadowRootMode,
+				clonable: tmp.shadowRootClonable,
+				delegatesFocus: tmp.shadowRootDelegatesFocus,
+				serializable: tmp.shadowRootSerializable,
+			});
+
 			shadow.append(tmp.content);
 			tmp.remove();
 			attachShadows(shadow);
+			attachedShadows.set(shadow.host, shadow);
 		});
 	};
+
+	overwriteMethod(HTMLElement.prototype, 'attachShadow', function(attach) {
+		return ({ mode, clonable = false, delegatesFocus = false, serializable = false, slotAssignment = 'auto' }) => {
+			if (! attachedShadows.has(this)) {
+				return attach.call(this, { mode, clonable, delegatesFocus, serializable, slotAssignment });
+			} else {
+				const shadow = attachedShadows.get(this);
+
+				if (mode === shadow.shadowRootMode) {
+					attachShadows.remove(this);
+					return shadow;
+				} else {
+					throw new DOMException('Element.attachShadow: Unable to re-attach to existing ShadowDOM');
+				}
+			}
+		};
+	});
 
 	if (document.readyState === 'loading') {
 		document.addEventListener('readystatechange', () => attachShadows(document), { once: true });

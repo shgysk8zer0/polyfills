@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.4.6] - 2024-11-03
+
+### Added
+- Add [`CloseWatcher`](https://developer.mozilla.org/en-US/docs/Web/API/CloseWatcher) polyfill
+
+### Changed
+- Enhance `setHTMLUnsafe` and `getHTML` support
+
 ## [v0.4.5] - 2024-10-11
 
 ### Added
