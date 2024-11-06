@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.4.7] - 2024-11-06
+
+### Changed
+- Update `@aegisjsproject/sanitizer` with support for Declarative Shadow DOM
+
 ## [v0.4.6] - 2024-11-03
 
 ### Added
