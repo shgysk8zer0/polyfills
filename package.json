@@ -1,16 +1,16 @@
 {
   "name": "@shgysk8zer0/polyfills",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "private": false,
   "type": "module",
   "description": "A collection of JavaScript polyfills",
-  "main": "./node.min.js",
+  "main": "./node.cjs",
   "module": "./node.min.js",
-  "unpkg": "./all.min.js",
+  "unpkg": "./browser.min.js",
   "exports": {
     ".": {
       "import": "./node.min.js",
-      "require": "./node.min.js"
+      "require": "./node.cjs"
     },
     "./*.js": {
       "import": "./*.js"

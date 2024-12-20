@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.4.8] - 2024-12-20
+
+### Added
+- Add CJS version for node via `node.cjs`
+
+### Changed
+- Update package `main` and `exports.require` to use `node.cjs`
+
 ## [v0.4.7] - 2024-11-06
 
 ### Changed
