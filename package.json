@@ -83,7 +83,7 @@
   "homepage": "https://github.com/shgysk8zer0/polyfills#readme",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.0",
-    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-node-resolve": "^16.0.0",
     "@shgysk8zer0/eslint-config": "^1.0.1",
     "@shgysk8zer0/js-utils": "^1.0.1",
     "htmlhint": "^1.1.4",
