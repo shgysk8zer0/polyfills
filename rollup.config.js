@@ -44,5 +44,9 @@ export default [{
 		format: 'iife',
 		plugins: [t],
 		sourcemap: true,
+	}, {
+		file: 'node.cjs',
+		format: 'cjs',
+		plugins: [t],
 	}],
 }];
