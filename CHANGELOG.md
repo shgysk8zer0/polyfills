@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [v0.4.9] - 2025-01-20
+## [v0.4.9] - 2025-01-22
 
 ### Added
 - Add `ReadableStream.from()` polyfill
