@@ -4,6 +4,7 @@ import './blob.js';
 import './errors.js';
 import './function.js';
 import './iterator.js';
+import './streams.js';
 import './map.js';
 import './math.js';
 import './object.js';

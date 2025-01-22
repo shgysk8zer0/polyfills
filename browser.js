@@ -1,5 +1,5 @@
 /**
- * @copyright 2023-2024 Chris Zuber <admin@kernvalley.us>
+ * @copyright 2023-2025 Chris Zuber <admin@kernvalley.us>
  */
 import './globalThis.js';
 import './string.js';
@@ -12,6 +12,7 @@ import './function.js';
 import './url.js';
 import './number.js';
 import './iterator.js';
+import './streams.js';
 import './math.js';
 import './secure-context.js';
 import './navigator.js';
