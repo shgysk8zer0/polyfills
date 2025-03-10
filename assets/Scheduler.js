@@ -45,14 +45,18 @@ function getTaskCallback(callback, resolve, reject, signal) {
 
 export class Scheduler {
 	async postTask(callback, {
-		priority = PRIORITIES.visible,
+		priority,
 		delay,
 		signal,
 	} = {}) {
 		const { promise, resolve, reject } = Promise.withResolvers();
 		const controller = new AbortController();
-		const hasDelay = Number.isSafeInteger(delay) && delay >= 0;
+		const hasDelay = Number.isSafeInteger(delay) && delay > -1;
 		const taskCallback = getTaskCallback(callback, resolve, reject, signal);
+
+		if (typeof priority === 'undefined') {
+			priority = signal instanceof globalThis.TaskSignal ? signal.priority : PRIORITIES.visible;
+		}
 
 		if (signal instanceof AbortSignal && signal.aborted) {
 			reject(signal.reason);
@@ -116,22 +120,7 @@ export class Scheduler {
 		});
 	}
 
-	async yield({ signal, priority = PRIORITIES.blocking } = {}) {
-		switch(priority) {
-			case PRIORITIES.visible:
-				await this.postTask(() => {}, { signal, priority: PRIORITIES.visible });
-				break;
-
-			case PRIORITIES.blocking:
-				await this.postTask(() => {}, { signal, priority: PRIORITIES.blocking, delay: 0 });
-				break;
-
-			case PRIORITIES.background:
-				await this.postTask(() => {}, { signal, priority: PRIORITIES.background });
-				break;
-
-			default:
-				throw new TypeError(`Scheduler.yield: '${priority}' (value of 'priority' member of SchedulerPostTaskOptions) is not a valid value for enumeration TaskPriority.`);
-		}
+	async yield() {
+		await this.postTask(() => null, { priority: PRIORITIES.visible });
 	}
 }
