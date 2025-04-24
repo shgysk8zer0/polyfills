@@ -389,3 +389,14 @@ if (! ('credentialless' in HTMLIFrameElement.prototype)) {
 		}
 	});
 }
+
+if ('HTMLDialogElement' in globalThis && ! (HTMLDialogElement.prototype.requestClose instanceof Function)) {
+	HTMLDialogElement.prototype.requestClose = function requestClose(returnValue) {
+		const event = new Event('cancel', { cancelable: true, bubbles: false });
+		this.dispatchEvent(event);
+
+		if (! event.defaultPrevented) {
+			this.close(returnValue);
+		}
+	};
+}
