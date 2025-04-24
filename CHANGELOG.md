@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.4.11] - 2025-04-24
+
+### Added
+- Add `HTMLDialogElement.prototype.requestClose()`
+
 ## [v0.4.10] - 2025-03-10
 
 ### Added
