@@ -53,7 +53,7 @@ if ('Promise' in globalThis) {
 		/**
 		 * @see https://github.com/tc39/proposal-promise-try
 		 */
-		Promise.try = callback => new Promise(resolve => resolve(callback()));
+		Promise.try = (callback, ...args) => new Promise(resolve => resolve(callback(...args)));
 	}
 
 	if (! (Promise.withResolvers instanceof Function)) {
