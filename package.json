@@ -1,6 +1,6 @@
 {
   "name": "@shgysk8zer0/polyfills",
-  "version": "0.4.12",
+  "version": "0.4.13",
   "private": false,
   "type": "module",
   "description": "A collection of JavaScript polyfills",
