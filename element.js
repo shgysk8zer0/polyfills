@@ -2,6 +2,7 @@ import { aria } from './aom.js';
 import { polyfillGetterSetter, polyfillMethod, overwriteMethod } from './utils.js';
 import { getHTML, setHTMLUnsafe } from './methods/dom.js';
 import './sanitizer.js';
+import './command.js';
 
 polyfillMethod(Element.prototype, 'setHTMLUnsafe', setHTMLUnsafe);
 polyfillMethod(Element.prototype, 'getHTML', getHTML);

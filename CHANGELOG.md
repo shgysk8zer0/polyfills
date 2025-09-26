@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.4.13] - 2025-09-26
+
+### Added
+- Add [Invoker Commands API](https://developer.mozilla.org/en-US/docs/Web/API/Invoker_Commands_API) polyfill
+
 ## [v0.4.12] - 2025-07-14
 
 ### Fixed
