@@ -1,6 +1,6 @@
 {
   "name": "@shgysk8zer0/polyfills",
-  "version": "0.4.13",
+  "version": "0.4.14",
   "private": false,
   "type": "module",
   "description": "A collection of JavaScript polyfills",
@@ -88,6 +88,7 @@
     "@shgysk8zer0/js-utils": "^1.0.1",
     "htmlhint": "^1.1.4",
     "http-server": "^14.1.1",
+    "rollup": "^4.52.4",
     "string-dedent": "^3.0.1",
     "urlpattern-polyfill": "^10.0.0"
   },

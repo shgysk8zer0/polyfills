@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.4.14] - 2025-10-13
+
+### Changed
+- Switch to using OIDC for publishing
+- Update to node 24.10.0 (npm 11.6.1)
+
+### Removed
+- Remove `regexp.test.js` (for now...)
+
 ## [v0.4.13] - 2025-09-26
 
 ### Added
