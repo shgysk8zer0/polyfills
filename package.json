@@ -1,6 +1,6 @@
 {
   "name": "@shgysk8zer0/polyfills",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "private": false,
   "type": "module",
   "description": "A collection of JavaScript polyfills",
@@ -83,17 +83,17 @@
   "homepage": "https://github.com/shgysk8zer0/polyfills#readme",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^29.0.0",
-    "@rollup/plugin-node-resolve": "^16.0.0",
-    "@shgysk8zer0/eslint-config": "^1.0.1",
-    "@shgysk8zer0/js-utils": "^1.0.1",
-    "htmlhint": "^1.1.4",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@shgysk8zer0/eslint-config": "^1.0.4",
+    "@shgysk8zer0/js-utils": "^1.0.2",
+    "htmlhint": "^1.8.0",
     "http-server": "^14.1.1",
-    "rollup": "^4.52.4",
-    "string-dedent": "^3.0.1",
-    "urlpattern-polyfill": "^10.0.0"
+    "rollup": "^4.53.5",
+    "string-dedent": "^3.0.2",
+    "urlpattern-polyfill": "^10.1.0"
   },
   "dependencies": {
-    "@aegisjsproject/sanitizer": "^0.2.1",
+    "@aegisjsproject/sanitizer": "^0.2.2",
     "@aegisjsproject/trusted-types": "^1.0.2"
   }
 }
