@@ -93,7 +93,7 @@
     "urlpattern-polyfill": "^10.1.0"
   },
   "dependencies": {
-    "@aegisjsproject/sanitizer": "^0.2.3",
+    "@aegisjsproject/sanitizer": "^0.2.4",
     "@aegisjsproject/trusted-types": "^1.0.2"
   }
 }
