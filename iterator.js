@@ -5,7 +5,7 @@
 const supported = 'Iterator' in globalThis;
 
 const IteratorPrototype = supported
-	? Object.getPrototypeOf(globalThis.Iterator)
+	? globalThis.Iterator.prototype
 	: Object.getPrototypeOf(Object.getPrototypeOf([][Symbol.iterator]()));
 
 const Iterator = supported
@@ -14,6 +14,10 @@ const Iterator = supported
 		class Iterator {
 			[Symbol.iterator]() {
 				return this;
+			}
+
+			get [Symbol.toStringTag]() {
+				return 'Iterator';
 			}
 		}
 
