@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.6.0] - 2026-01-06
+
+### Changed
+- Do not include `Function.prototype.once()` for Lit compatibility
+
 ## [v0.5.6] - 2025-12-30
 
 ### Fixed
