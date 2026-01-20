@@ -15,10 +15,9 @@ if (! (Map.prototype.getOrInsert instanceof Function)) {
 		if (this.has(key)) {
 		  return this.get(key);
 		} else {
-			const val = callbackFunction(key);
+			const val = callbackFunction.call(this, key);
 			this.set(key, val);
 			return val;
-
 		}
 	  };
 }
