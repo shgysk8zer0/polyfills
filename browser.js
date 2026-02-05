@@ -7,6 +7,7 @@ import './deprefixer.js';
 import './object.js';
 import './map.js';
 import './array.js';
+import './disposable.js';
 import './symbols.js';
 import './function.js';
 import './url.js';
