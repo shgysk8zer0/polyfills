@@ -1,5 +1,6 @@
 import './abort.js';
 import './array.js';
+import './disposable.js';
 import './blob.js';
 import './errors.js';
 import './function.js';
