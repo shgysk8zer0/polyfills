@@ -76,7 +76,7 @@ if (typeof globalThis.AsyncDisposableStack === 'undefined') {
 			}
 		}
 
-		async asyncDispose() {
+		async disposeAsync() {
 			await this[Symbol.asyncDispose]();
 		}
 
