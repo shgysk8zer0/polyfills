@@ -279,7 +279,7 @@ if (! (Uint8Array.prototype.toHex instanceof Function)) {
 }
 
 if (! (Uint8Array.prototype.toBase64 instanceof Function)) {
-	Uint8Array.prototype.toBase64 = function toBase64({ alphabet = 'base64' } = {}) {
+	Uint8Array.prototype.toBase64 = function toBase64({ alphabet = 'base64', omitPadding = false } = {}) {
 		if (alphabet === 'base64') {
 			// @todo Figure out encoding specifics
 			//return btoa(String.fromCodePoint(...this));
@@ -291,9 +291,9 @@ if (! (Uint8Array.prototype.toBase64 instanceof Function)) {
 				str += String.fromCharCode.apply(null, chunk);
 			}
 
-			return btoa(str);
+			return omitPadding ? btoa(str).replace(/=+$/, '') : btoa(str);
 		} else if (alphabet === 'base64url') {
-			return this.toBase64({ alphabet: 'base64' }).replaceAll('+', '-').replaceAll('/', '_');
+			return this.toBase64({ alphabet: 'base64', omitPadding }).replaceAll('+', '-').replaceAll('/', '_');
 		} else {
 			throw new TypeError('expected alphabet to be either "base64" or "base64url');
 		}

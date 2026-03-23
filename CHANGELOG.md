@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.6.3] - 2026-03-23
+
+### Fixed
+- Fix missing `omitPadding` option in `Uint8Array.toBase64()`
+
 ## [v0.6.2] - 2026-02-05
 
 ### Fixed
