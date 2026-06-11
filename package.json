@@ -40,7 +40,6 @@
   },
   "scripts": {
     "test": "npm run lint:js && npm run lint:html && npm run run:tests",
-    "postinstall": "if [ -f './assets/dedent.cjs' ]; then npm run build; fi",
     "preversion": "npm test && npm run build",
     "prepare": "npm test && npm run build",
     "start": "http-server ${npm_package_config_serve_path} -c-1 --port ${npm_package_config_serve_port} --gzip true --brotli true -a ${npm_package_config_serve_domain} -o /test/",
@@ -95,5 +94,8 @@
   "dependencies": {
     "@aegisjsproject/sanitizer": "^0.2.4",
     "@aegisjsproject/trusted-types": "^1.0.2"
+  },
+  "allowScripts": {
+    "fsevents@2.3.2": true
   }
 }

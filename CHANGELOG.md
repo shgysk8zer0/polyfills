@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.7.0] - 2026-06-11
+
+### Changed
+- Update to node 26.3.0 / npm 11.16.0
+- Update from `publish` to `publish stage`
+- Allow `fsevents` postinstall script
+
+### Removed 
+- Remove `postinstall` script
+
 ## [v0.6.3] - 2026-03-23
 
 ### Fixed
