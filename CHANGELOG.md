@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.8.2] - 2026-06-12
+
+### Added
+- Add `.npmrc` to harden `npm i` & `npm ci` operations
+
 ## [v0.8.1] - 2026-06-11
 
 ### Fixed
