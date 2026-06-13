@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.8.3] - 2026-06-12
+
+### Added
+- Added `SECURITY.md` for reporting security issues
+
+### Changed
+- Update permissions in GitHub Actions
+- Update `CONTRIBUTING.md`
+
 ## [v0.8.2] - 2026-06-12
 
 ### Added
