@@ -1,5 +1,7 @@
 ---
 name: Create and publish a packages to npm
+permissions:
+  contents: read
 on:
   push:
     # Sequence of patterns matched against refs/tags

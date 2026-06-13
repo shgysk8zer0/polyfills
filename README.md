@@ -1,7 +1,7 @@
 # [@shgysk8zer0/polyfills](https://www.npmjs.com/package/@shgysk8zer0/rollup-import)
 
 @shgysk8zer0/polyfills is a collection of JavaScript polyfills designed to provide
-modern functionality in older browsers. This library provides a range of polyfills
+modern functionality in older browsers and node. This library provides a range of polyfills
 for features including `AbortSignal`, `CookieStore`, `Sanitizer`, and many more.
 
 [![CodeQL](https://github.com/shgysk8zer0/polyfills/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/shgysk8zer0/polyfills/actions/workflows/codeql-analysis.yml)
@@ -28,7 +28,7 @@ for features including `AbortSignal`, `CookieStore`, `Sanitizer`, and many more.
 
 - [Code of Conduct](./.github/CODE_OF_CONDUCT.md)
 - [Contributing](./.github/CONTRIBUTING.md)
-<!-- - [Security Policy](./.github/SECURITY.md) -->
+- [Security Policy](./.github/SECURITY.md)
 
 ## Installation
 
@@ -40,13 +40,13 @@ You can use a CDN to access the library. Add the following script tag to your
 HTML file to load the latest version:
 
 ```html
-<script src="https://unpkg.com/@shgysk8zer0/polyfills[@version]/all.min.js"></script>
+<script src="https://unpkg.com/@shgysk8zer0/polyfills[@version]/browser.min.js"></script>
 ```
 
 #### With version and SRI
 
 ```html
-<script src="https://unpkg.com/@shgysk8zer0/polyfills@0.0.6/all.min.js" referrerpolicy="no-referrer" crossorigin="anonymous" integrity="sha384-xoY6kDRPTvbDfGdGA3S6Ercudev5mWGBWZIErLB38f7TeN6hV7zof6WBpzMdx/z0" fetchpriority="high" defer=""></script>
+<script src="https://unpkg.com/@shgysk8zer0/polyfills@0.8.3/browser.min.js" referrerpolicy="no-referrer" crossorigin="anonymous" integrity="sha384-xoY6kDRPTvbDfGdGA3S6Ercudev5mWGBWZIErLB38f7TeN6hV7zof6WBpzMdx/z0" fetchpriority="high" defer=""></script>
 ```
 
 ### NPM
@@ -59,7 +59,7 @@ npm install @shgysk8zer0/polyfills
 ```
 > [!Note]
 > If using this polyfills package in a node environment, you want to use `node.js` instead
-> of `all.js`. The node version omits polyfills that do not make sense in NodeJS, such as DOM.
+> of `browser.js`. The node version omits polyfills that do not make sense in NodeJS, such as DOM.
 > Simply using `import '@shgysk8zer0/polyfills'` or `require('@shgysk8zer0/polyfills')` should work.
 
 ### Git Submodule
@@ -78,7 +78,7 @@ To use the polyfills in your project, simply import them using ES6 modules:
 ```javascript
 import '@shgysk8zer0/polyfills';
 // Or
-import 'https://unpkg.com/@shgysk8zer0/polyfills/all.js';
+import 'https://unpkg.com/@shgysk8zer0/polyfills/browser.js';
 ```
 
 This will load all the polyfills in the library.
@@ -102,8 +102,8 @@ for more details.
 <script type="importmap">
 {
   "imports": {
-    "@shgysk8zer0/polyfills": "https://unpkg.com/@shgysk8zer0/polyfills@0.0.6/all.min.js",
-    "@shgysk8zer0/polyfills/": "https://unpkg.com/@shgysk8zer0/polyfills@0.0.6/",
+    "@shgysk8zer0/polyfills": "https://unpkg.com/@shgysk8zer0/polyfills@0.8.3/browser.min.js",
+    "@shgysk8zer0/polyfills/": "https://unpkg.com/@shgysk8zer0/polyfills@0.8.3/",
   }
 }
 </script>
