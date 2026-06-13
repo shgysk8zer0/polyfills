@@ -1,7 +1,7 @@
 # Security Policy
 
 ## Reporting a Vulnerability
-Please do not report security vulnerabilities via public GitHub issues or pull requests. 
+Please do not report security vulnerabilities via public GitHub issues or pull requests.
 
 Instead, please use the native **Private Vulnerability Reporting** feature on this repository:
 1. Navigate to the main page of the repository.
