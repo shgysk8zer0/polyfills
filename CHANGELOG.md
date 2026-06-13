@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.8.4] - 2026-06-12
+
+### Fixed
+- Fix location of `SECURITY.md`
+
 ## [v0.8.3] - 2026-06-12
 
 ### Added
