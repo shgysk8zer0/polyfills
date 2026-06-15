@@ -3,12 +3,10 @@ repos:
   rev: v8.16.3
   hooks:
   - id: gitleaks
-- repo: https://github.com/pre-commit/mirrors-eslint
-  rev: v8.38.0
+- repo: local
   hooks:
-  - id: eslint
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.4.0
-  hooks:
-  - id: end-of-file-fixer
-  - id: trailing-whitespace
+  - id: local-eslint
+    name: Run ESLint
+    entry: npm eslint --fix
+    language: system
+    types_or: [javascript, jsx, ts, tsx]
