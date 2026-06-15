@@ -7,6 +7,6 @@ repos:
   hooks:
   - id: local-eslint
     name: Run ESLint
-    entry: npm eslint --fix
+    entry: npm run lint:js --if-present
     language: system
     types_or: [javascript, jsx, ts, tsx]
