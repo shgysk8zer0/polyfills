@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Switch `step-security/harden-runner` to block mode
+
 ## [v0.8.6] - 2026-06-15
 
 ### Fixed

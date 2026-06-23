@@ -5,8 +5,18 @@ repos:
   - id: gitleaks
 - repo: local
   hooks:
+  - id: local-stylelint
+    name: Run Stylelint
+    entry: npm run lint:css --if-exists
+    language: node
+    types: [css]
+  - id: local-htmlhint
+    name: Run HTMLHint
+    entry: npm run lint:html --if-exists
+    language: node
+    types: [html]
   - id: local-eslint
     name: Run ESLint
-    entry: npm run lint:js --if-present
-    language: system
+    entry: npm run lint:js --if-exists
+    language: node
     types_or: [javascript, jsx, ts, tsx]

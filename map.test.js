@@ -5,25 +5,10 @@ import '@shgysk8zer0/polyfills/map';
 const signal = AbortSignal.timeout(30_000);
 
 describe('Testing `Map`', () => {
-	test('Test `Map.emplace`', { signal }, async () => {
-		const events = await fetch(new URL('./events.json', 'https://events.kernvalley.us')).then(resp => resp.json());
-
-		const map = Map.groupBy(events, event => Symbol.for(event.location.address.addressLocality));
-		const strKey = 'Kernville';
-		const key = Symbol.for(strKey);
-		const len = map.has(key) ? map.get(key).length : 0;
-
-		map.emplace(key, {
-			insert() {
-				return [`Inserting into ${strKey}.`];
-			},
-			update(events) {
-				return [...events, `Updating into ${strKey}.`];
-			}
-		});
-
-		assert.ok(map.has(key),`Map does not contain entry for Symbol(${strKey}).`);
-		assert.notEqual(map.get(key).length, len, `Failed to update and append map for Symbol(${strKey}).`);
+	test('Test `Map.getOrInsert`', { signal }, async () => {
+		const map = new Map([['bar', 'foo']]);
+		assert.strictEqual(map.getOrInsert('bar', 'default'), 'foo');
+		assert.strictEqual(map.getOrInsert('baz', 'default'), 'default');
 	});
 
 	test('Test `Map.groupBy`', { signal }, () => {
