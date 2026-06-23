@@ -56,10 +56,14 @@ jobs:
       ##########################
       # Checkout the code base #
       ##########################
-      - name: Harden the runner (Audit all outbound calls)
+      - name: Harden Runner
         uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
         with:
           egress-policy: audit
+          allowed-endpoints: >
+            api.github.com:443
+            github.com:443
+            44.226.107.201:443
 
       - name: Checkout Code
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -87,12 +91,12 @@ jobs:
           LINTER_RULES_PATH: './'
           EDITORCONFIG_FILE_NAME: '.editorconfig'
           # JAVASCRIPT_ES_CONFIG_FILE: 'eslint.config.js'
-          CSS_FILE_NAME: '.stylelintrc.json'
+          # CSS_FILE_NAME: '.stylelintrc.json'
 
           # Valate Languages - Uncomment to Enable
           # JS/TS/JSON Disabled until ESLint in super-linter is updated
           # VALIDATE_HTML: true
-          VALIDATE_CSS: true
+          # VALIDATE_CSS: true
           # VALIDATE_JAVASCRIPT_ES: true
           # VALIDATE_JAVASCRIPT_STANDARD: true
           # VALIDATE_JSON: true

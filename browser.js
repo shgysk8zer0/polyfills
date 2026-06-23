@@ -36,7 +36,7 @@ import './weakMap.js';
 import './window.js';
 import './scheduler.js';
 import './elementInternals.js';
-import  './blob.js';
+import './blob.js';
 import './request.js';
 import './response.js';
 import './Record.js';
