@@ -96,3 +96,77 @@ describe('Testing `Iterator`', () => {
 		assert.equal(closed, true);
 	});
 });
+
+describe('Iterator.zipKeyed()', () => {
+	test('transposes tabular data as shown in MDN example', () => {
+		const table = {
+			name: ['Caroline', 'Danielle', 'Evelyn'],
+			age: [30, 25, 35],
+			city: ['New York', 'London', 'Hong Kong'],
+		};
+
+		const result = Array.from(Iterator.zipKeyed(table));
+
+		assert.deepStrictEqual(result, [
+			{ name: 'Caroline', age: 30, city: 'New York' },
+			{ name: 'Danielle', age: 25, city: 'London' },
+			{ name: 'Evelyn', age: 35, city: 'Hong Kong' },
+		]);
+	});
+
+	test('stops at the shortest iterable by default', () => {
+		const input = {
+			a: ['a1', 'a2', 'a3', 'a4'],
+			b: ['b1', 'b2', 'b3'],
+			c: ['c1', 'c2', 'c3', 'c4', 'c5'],
+		};
+
+		const result = Array.from(Iterator.zipKeyed(input));
+
+		assert.deepStrictEqual(result, [
+			{ a: 'a1', b: 'b1', c: 'c1' },
+			{ a: 'a2', b: 'b2', c: 'c2' },
+			{ a: 'a3', b: 'b3', c: 'c3' },
+		]);
+	});
+
+	test('yields all values with mode: \'longest\' using padding', () => {
+		const input = {
+			a: ['a1', 'a2', 'a3', 'a4'],
+			b: ['b1', 'b2', 'b3'],
+			c: ['c1', 'c2', 'c3', 'c4', 'c5'],
+		};
+
+		const result = Array.from(Iterator.zipKeyed(input, {
+			mode: 'longest',
+			padding: { a: 'p1', b: 'p2', c: 'p3' }
+		}));
+
+		assert.deepStrictEqual(result, [
+			{ a: 'a1', b: 'b1', c: 'c1' },
+			{ a: 'a2', b: 'b2', c: 'c2' },
+			{ a: 'a3', b: 'b3', c: 'c3' },
+			{ a: 'a4', b: 'p2', c: 'c4' },
+			{ a: 'p1', b: 'p2', c: 'c5' },
+		]);
+	});
+
+	test('throws TypeError if lengths differ with mode: \'strict\'', () => {
+		const input = {
+			a: [1, 2],
+			b: [1]
+		};
+
+		assert.throws(
+			() => Array.from(Iterator.zipKeyed(input, { mode: 'strict' })),
+			TypeError
+		);
+	});
+
+	test('rejects string primitives directly as iterables', () => {
+		assert.throws(
+			() => Array.from(Iterator.zipKeyed({ a: 'string' })),
+			TypeError
+		);
+	});
+});

@@ -444,6 +444,36 @@ polyfillMethod(Iterator, 'zip', function zip(iterables, options = {}) {
 		}
 	})();
 });
+polyfillMethod(Iterator, 'zipKeyed', function*(iterables, options = {}) {
+	if (iterables == null || typeof iterables !== 'object') {
+	  throw new TypeError('iterables must be an object');
+	}
+
+	const keys = Object.keys(iterables);
+	const iterableList = keys.map(key => {
+	  const iterable = iterables[key];
+	  if (typeof iterable === 'string') {
+			throw new TypeError('Strings are rejected: use Iterator.from() explicitly');
+	  }
+	  return iterable;
+	});
+
+	const zipOptions = { mode: options?.mode ?? 'shortest' };
+
+	if (zipOptions.mode === 'longest' && options?.padding) {
+	  zipOptions.padding = keys.map(key => options.padding[key]);
+	}
+
+	// Delegate iteration and length-handling directly to Iterator.zip()
+	for (const values of Iterator.zip(iterableList, zipOptions)) {
+	  const resultObj = {};
+	  for (let i = 0; i < keys.length; i++) {
+			resultObj[keys[i]] = values[i];
+	  }
+	  yield resultObj;
+	}
+});
+
 
 if (! supported) {
 	globalThis.Iterator = Iterator;
