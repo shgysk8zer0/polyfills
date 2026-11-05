@@ -3,7 +3,7 @@ export function polyfillMethod(parent, name, value, {
 	enumerable = true,
 	configurable = true,
 } = {}) {
-	if (! (parent[name] instanceof Function)) {
+	if (typeof parent[name] !== 'function') {
 		Object.defineProperty(parent, name, { value, writable, enumerable, configurable });
 	}
 }

@@ -1,91 +1,55 @@
+import { polyfillMethod } from './utils.js';
+
 if ('Promise' in globalThis) {
-	if (! (Promise.prototype.finally instanceof Function)) {
-		Promise.prototype.finally = function(callback) {
-			return this.then(async val => {
-				await callback();
-				return val;
-			}, async val => {
-				await callback();
-				return val;
-			});
-		};
-	}
+	polyfillMethod(Promise, 'try', (callback, ...args) => new Promise(resolve => resolve(callback(...args))));
 
-	if (! (Promise.allSettled instanceof Function)) {
-		Promise.allSettled = function(promises) {
-			return Promise.all(Array.from(promises).map(function(call) {
-				return new Promise(function(resolve) {
-					if (! (call instanceof Promise)) {
-						call = Promise.resolve(call);
-					}
-					call.then(function(value) {
-						resolve({ status: 'fulfilled', value: value });
-					}).catch(function(reason) {
-						resolve({ status: 'rejected', reason: reason });
-					});
-				});
-			}));
-		};
-	}
+	polyfillMethod(Promise, 'withResolvers', function withResolvers() {
+		const def = {};
 
-	if (! (Promise.any instanceof Function)) {
-		Promise.any = (promises) => new Promise((resolve, reject) => {
-			let errors = [];
-
-			promises.forEach(promise => {
-				promise.then(resolve).catch(e => {
-					errors.push(e);
-					if (errors.length === promises.length) {
-						reject(new globalThis.AggregateError(errors, 'No Promise in Promise.any was resolved'));
-					}
-				});
-			});
+		def.promise = new Promise((resolve, reject) => {
+			def.resolve = resolve;
+			def.reject = reject;
 		});
-	}
 
-	if (! (Promise.race instanceof Function)) {
-		Promise.race = (promises) => new Promise((resolve, reject) => {
-			promises.forEach(promise => promise.then(resolve, reject));
-		});
-	}
+		return def;
+	});
 
-	if (! (Promise.try instanceof Function)) {
-		/**
-		 * @see https://github.com/tc39/proposal-promise-try
-		 */
-		Promise.try = (callback, ...args) => new Promise(resolve => resolve(callback(...args)));
-	}
+	polyfillMethod(Promise, 'fromEntries', async function fromEntries(entries) {
+		const keys = [];
+		const values = [];
 
-	if (! (Promise.withResolvers instanceof Function)) {
-		Promise.withResolvers = function() {
-			const def = {};
-			def.promise = new Promise((resolve, reject) => {
-				def.resolve = resolve;
-				def.reject = reject;
-			});
+		for (const [key, value] of entries) {
+			keys.push(key);
+			values.push(value);
+		}
 
-			return def;
-		};
-	}
+		return await Promise.all(values)
+			.then(values => Object.fromEntries(values.map((value, i) => [keys[i], value])));
+	});
 
-	if (! (Promise.fromEntries instanceof Function)) {
-		Promise.fromEntries = async function fromEntries(entries) {
-			const keys = [];
-			const values = [];
+	polyfillMethod(Promise, 'ownProperties', function ownProperties(obj) {
+		return Promise.fromEntries(Object.entries(obj));
+	});
 
-			for (const [key, value] of entries) {
-				keys.push(key);
-				values.push(value);
-			}
+	polyfillMethod(Promise, 'allKeyed', async function allKeyed(obj) {
+		if (obj === null || typeof obj !== 'object') {
+			throw new TypeError('Argument must be an object');
+		} else {
+			const keys = Reflect.ownKeys(obj);
+			const values = await Promise.all(keys.map(k => obj[k]));
 
-			return await Promise.all(values)
-				.then(values => Object.fromEntries(values.map((value, i) => [keys[i], value])));
-		};
-	}
+			return Object.fromEntries(Iterator.zip([keys, values]));
+		}
+	});
 
-	if (!(Promise.ownProperties instanceof Function)) {
-		Promise.ownProperties = async function ownProperties(obj) {
-			return await Promise.fromEntries(Object.entries(obj));
-		};
-	}
+	polyfillMethod(Promise, 'allSettledKeyed', async function allSettledKeyed(obj) {
+		if (obj === null || typeof obj !== 'object') {
+			throw new TypeError('Argument must be an object');
+		} else {
+			const keys = Reflect.ownKeys(obj);
+			const results = await Promise.allSettled(keys.map(k => obj[k]));
+
+			return Object.fromEntries(Iterator.zip([keys, results]));
+		}
+	});
 }
