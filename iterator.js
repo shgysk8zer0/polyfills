@@ -1,3 +1,5 @@
+import { polyfillMethod } from './utils.js';
+
 /**
  * @see https://github.com/tc39/proposal-iterator-helpers
  */
@@ -350,6 +352,128 @@ if (! (Iterator.from instanceof Function)) {
 		}
 	};
 }
+
+polyfillMethod(Iterator, 'zip', function zip(iterables, options = {}) {
+	if (iterables == null || typeof iterables[Symbol.iterator] !== 'function') {
+		throw new TypeError('iterables must be an iterable');
+	} else if (iterables[Symbol.iterator]() === iterables) {
+		throw new TypeError('iterables cannot be an iterator');
+	}
+
+	const iterableArray = Array.from(iterables);
+	const iterators = iterableArray.map(item => {
+		if (typeof item === 'string') {
+			throw new TypeError('Strings are rejected in Iterator.zip. Use Iterator.from() explicitly.');
+		} else if (item != null && typeof item[Symbol.iterator] === 'function') {
+			return item[Symbol.iterator]();
+		} else if (item != null && typeof item.next === 'function') {
+			return item;
+		} else {
+			throw new TypeError('Each element must implement the iterable or iterator protocol');
+		}
+	});
+
+	let mode = 'shortest';
+	let padding = [];
+
+	if (options !== undefined && options !== null) {
+		if (options.mode !== undefined) {
+			mode = String(options.mode);
+			if (! ['shortest', 'longest', 'strict'].includes(mode)) {
+				throw new TypeError('Invalid mode option: must be shortest, longest, or strict');
+			}
+		}
+
+		if (mode === 'longest' && options.padding !== undefined) {
+			const padObj = options.padding;
+			if (padObj == null || typeof padObj[Symbol.iterator] !== 'function') {
+				throw new TypeError('padding must be an iterable');
+			} else if (padObj[Symbol.iterator]() === padObj) {
+				throw new TypeError('padding cannot be an iterator');
+			}
+
+			const padIter = padObj[Symbol.iterator]();
+
+			for (let i = 0; i < iterators.length; i++) {
+				const res = padIter.next();
+				padding.push(res.done ? undefined : res.value);
+			}
+
+			if (typeof padIter.return === 'function') {
+				padIter.return();
+			}
+		}
+	}
+
+	// IIFE generator call so checks run immediately
+	return (function* () {
+		while (true) {
+			const results = iterators.map(it => it.next());
+			const allDone = results.every(res => res.done);
+			const anyDone = results.some(res => res.done);
+
+			if (allDone) {
+				return;
+			}
+
+			if (anyDone) {
+				if (mode === 'shortest') {
+					iterators.forEach((it, i) => {
+						if (!results[i].done && typeof it.return === 'function') {
+							it.return();
+						}
+					});
+					return;
+				}
+
+				if (mode === 'strict' && !allDone) {
+					iterators.forEach((it, i) => {
+						if (!results[i].done && typeof it.return === 'function') {
+							it.return();
+						}
+					});
+					throw new TypeError('Iterables did not finish at the same time in strict mode');
+				}
+			}
+			yield results.map((res, i) => {
+				if (res.done) {
+					return padding[i];
+				}
+				return res.value;
+			});
+		}
+	})();
+});
+polyfillMethod(Iterator, 'zipKeyed', function*(iterables, options = {}) {
+	if (iterables == null || typeof iterables !== 'object') {
+	  throw new TypeError('iterables must be an object');
+	}
+
+	const keys = Object.keys(iterables);
+	const iterableList = keys.map(key => {
+	  const iterable = iterables[key];
+	  if (typeof iterable === 'string') {
+			throw new TypeError('Strings are rejected: use Iterator.from() explicitly');
+	  }
+	  return iterable;
+	});
+
+	const zipOptions = { mode: options?.mode ?? 'shortest' };
+
+	if (zipOptions.mode === 'longest' && options?.padding) {
+	  zipOptions.padding = keys.map(key => options.padding[key]);
+	}
+
+	// Delegate iteration and length-handling directly to Iterator.zip()
+	for (const values of Iterator.zip(iterableList, zipOptions)) {
+	  const resultObj = {};
+	  for (let i = 0; i < keys.length; i++) {
+			resultObj[keys[i]] = values[i];
+	  }
+	  yield resultObj;
+	}
+});
+
 
 if (! supported) {
 	globalThis.Iterator = Iterator;
