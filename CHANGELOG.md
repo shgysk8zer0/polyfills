@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v8.8.7] - 2026-11-05
+
+### Added
+- Add `Promise.allKeyed()`, `Promise.allSettledKeyed()`, `Iterator.zip()`, and `Iterator.zipKeyed()`
+
 ### Changed
 - Switch `step-security/harden-runner` to block mode
 
